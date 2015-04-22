@@ -1,4 +1,4 @@
-// package logo;
+package temp;
 
 import java.awt.*;
 import javax.swing.*;
