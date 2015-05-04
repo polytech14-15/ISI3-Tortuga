@@ -10,20 +10,20 @@ import view.*;
 public class TortugaController implements ActionListener  {
 
 	private Tortue tortugaCourante;
-//	private ArrayList<Tortue> tortues;
 	
 	private SimpleLogo vue;
+	private Jeu jeu;
 	
-	public TortugaController(SimpleLogo vue){
+	public TortugaController(SimpleLogo vue, Jeu jeu){
 		this.vue = vue;
-//		tortues = new ArrayList<>();
+		this.jeu = jeu;
+		
 		this.tortugaCourante = new Tortue(vue);
 		tortugaCourante.addObserver(vue.getFeuille());
-//		tortues.add(tortugaCourante);
+		
+		this.jeu.addTortue(tortugaCourante);
+		
 		reset();
-		
-//		vue.getFeuille().setTortue(tortues);
-		
 	}
 	
 	@Override
@@ -69,47 +69,27 @@ public class TortugaController implements ActionListener  {
 //		else if (c.equals("Proc3"))
 //			proc3();
 		else if (c.equals("Effacer")) {
-			for (Tortue t : tortues){
-				reset(t);
-			}
-			
+			reset();
+//			effacer();
 		}
-			effacer();
-		else if (c.equals("Quitter"))
-			quitter();
-
-		feuille.repaint();
-		
+		else if (c.equals("Quitter")){
+			vue.quitter();
+		} else if(c.equals("choixCouleur")){
+			this.tortugaCourante.setColor(vue.getColorIndex());
+		}
 	}
 	
 	public void reset() {
 		// on initialise la position de la tortue
-		for (Tortue t : jeu.getTortues){
+		for (Tortue t : jeu.getTortues()){
 			t.reset();
 		}
-		
-		// plus besoin de ça
-//		crayon = true;
-//		listSegments.clear();
   	}
 	
 	// avancer de n pas
 		public void avancer(int dist) {
 			int newX = (int) Math.round(tortugaCourante.getX()+dist*Math.cos(tortugaCourante.ratioDegRad*tortugaCourante.getDirection()));
 			int newY = (int) Math.round(tortugaCourante.getY()+dist*Math.sin(tortugaCourante.ratioDegRad*tortugaCourante.getDirection()));
-			
-			// plus besoin de ça
-//			if (crayon==true) {
-//				Segment seg = new Segment();
-//				
-//				seg.ptStart.x = x;
-//				seg.ptStart.y = y;
-//				seg.ptEnd.x = newX;
-//				seg.ptEnd.y = newY;
-//				seg.color = decodeColor(coul);
-//		
-//				listSegments.add(seg);
-//			}
 			
 			tortugaCourante.setPosition(newX, newY);
 		}
