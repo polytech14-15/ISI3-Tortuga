@@ -18,7 +18,7 @@ public class TortugaController implements ActionListener  {
 		this.jeu = jeu;
 		
 		this.tortugaCourante = new Tortue();
-		tortugaCourante.addObserver(vue.getFeuille());
+		tortugaCourante.addObserver(this.vue.getFeuille());
 		
 		this.jeu.addTortue(tortugaCourante);
 		

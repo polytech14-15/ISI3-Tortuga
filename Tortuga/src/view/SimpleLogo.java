@@ -68,9 +68,10 @@ public class SimpleLogo extends JFrame {
 		super("un logo tout simple");
 		
 		this.jeu = new Jeu();
+		logoInit();
 		this.con = new TortugaController(this, jeu);
 		
-		logoInit();
+		
 		
 		addWindowListener(new WindowAdapter() {
 		    @Override
