@@ -2,28 +2,91 @@ package controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
-import model.Tortue;
+import model.*;
+import view.*;
 
 public class TortugaController implements ActionListener  {
 
-	private Tortue tortuga;
+	private Tortue tortugaCourante;
+//	private ArrayList<Tortue> tortues;
 	
-	public TortugaController(){
+	private SimpleLogo vue;
+	
+	public TortugaController(SimpleLogo vue){
+		this.vue = vue;
+//		tortues = new ArrayList<>();
+		this.tortugaCourante = new Tortue(vue);
+		tortugaCourante.addObserver(vue.getFeuille());
+//		tortues.add(tortugaCourante);
+		reset();
+		
+//		vue.getFeuille().setTortue(tortues);
 		
 	}
 	
 	@Override
-	public void actionPerformed(ActionEvent arg0) {
-		// TODO Auto-generated method stub
+	public void actionPerformed(ActionEvent e) {
+		String c = e.getActionCommand();
+
+		// actions des boutons du haut
+		if (c.equals("Avancer")) {
+			System.out.println("command avancer");
+			try {
+				int v = Integer.parseInt(vue.getInputValue());
+				avancer(v);
+			} catch (NumberFormatException ex){
+				System.err.println("ce n'est pas un nombre : " + vue.getInputValue());
+			}
+			
+		}
+		else if (c.equals("Droite")) {
+			try {
+				int v = Integer.parseInt(vue.getInputValue());
+				droite(v);
+			} catch (NumberFormatException ex){
+				System.err.println("ce n'est pas un nombre : " + vue.getInputValue());
+			}
+		}
+		else if (c.equals("Gauche")) {
+			try {
+				int v = Integer.parseInt(vue.getInputValue());
+				gauche(v);
+			} catch (NumberFormatException ex){
+				System.err.println("ce n'est pas un nombre : " + vue.getInputValue());
+			}
+		}
+//		else if (c.equals("Lever")) 
+//			courante.leverCrayon();
+//		else if (c.equals("Baisser"))
+//			courante.baisserCrayon();
+		// actions des boutons du bas
+//		else if (c.equals("Proc1"))
+//			proc1();
+//		else if (c.equals("Proc2"))
+//			proc2();
+//		else if (c.equals("Proc3"))
+//			proc3();
+		else if (c.equals("Effacer")) {
+			for (Tortue t : tortues){
+				reset(t);
+			}
+			
+		}
+			effacer();
+		else if (c.equals("Quitter"))
+			quitter();
+
+		feuille.repaint();
 		
 	}
 	
 	public void reset() {
 		// on initialise la position de la tortue
-		tortuga.setPosition(0, 0);
-		tortuga.setDirection(-90);
-		tortuga.setColor(0);
+		for (Tortue t : jeu.getTortues){
+			t.reset();
+		}
 		
 		// plus besoin de ça
 //		crayon = true;
@@ -32,8 +95,8 @@ public class TortugaController implements ActionListener  {
 	
 	// avancer de n pas
 		public void avancer(int dist) {
-			int newX = (int) Math.round(tortuga.getX()+dist*Math.cos(tortuga.ratioDegRad*tortuga.getDirection()));
-			int newY = (int) Math.round(tortuga.getY()+dist*Math.sin(tortuga.ratioDegRad*tortuga.getDirection()));
+			int newX = (int) Math.round(tortugaCourante.getX()+dist*Math.cos(tortugaCourante.ratioDegRad*tortugaCourante.getDirection()));
+			int newY = (int) Math.round(tortugaCourante.getY()+dist*Math.sin(tortugaCourante.ratioDegRad*tortugaCourante.getDirection()));
 			
 			// plus besoin de ça
 //			if (crayon==true) {
@@ -48,17 +111,17 @@ public class TortugaController implements ActionListener  {
 //				listSegments.add(seg);
 //			}
 			
-			tortuga.setPosition(newX, newY);
+			tortugaCourante.setPosition(newX, newY);
 		}
 
 		// aller a droite
 		public void droite(int ang) {
-			tortuga.setDirection((tortuga.getDirection() + ang) % 360);
+			tortugaCourante.setDirection((tortugaCourante.getDirection() + ang) % 360);
 		}
 
 		// aller a gauche
 		public void gauche(int ang) {
-			tortuga.setDirection((tortuga.getDirection() - ang) % 360);
+			tortugaCourante.setDirection((tortugaCourante.getDirection() - ang) % 360);
 		}
 
 	

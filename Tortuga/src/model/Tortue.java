@@ -45,7 +45,7 @@ public class Tortue extends Observable {
 	}
 
 	// constructeur
-	public Tortue() { // FeuilleDessin f) {
+	public Tortue() {
 		// feuille = f;
 		// feuille.addTortue(this);	
 
@@ -53,9 +53,18 @@ public class Tortue extends Observable {
 		//			listSegments = new ArrayList<Segment>();
 
 		//			reset();
-		//			addObserver(f);
+					
 	}
 
 	// méthodes
+	
+	public void reset() {
+		this.setPosition(0, 0);
+		this.setDirection(-90);
+		this.setColor(0);
+		setChanged();
+		notifyObservers();
+	}
 
 }
+	
