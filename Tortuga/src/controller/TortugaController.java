@@ -28,7 +28,7 @@ public class TortugaController implements ActionListener  {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		String c = e.getActionCommand();
-
+		System.out.println(c);
 		// actions des boutons du haut
 		if (c.equals("Avancer")) {
 			System.out.println("command avancer");
@@ -82,6 +82,7 @@ public class TortugaController implements ActionListener  {
 		// on initialise la position de la tortue
 		for (Tortue t : jeu.getTortues()){
 			t.reset();
+			t.setPosition(vue.getFeuille().getSize().width/2, vue.getFeuille().getSize().height/2);
 		}
   	}
 	
