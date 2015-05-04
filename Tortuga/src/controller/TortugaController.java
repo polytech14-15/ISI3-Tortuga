@@ -2,7 +2,6 @@ package controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 
 import model.*;
 import view.*;
@@ -18,7 +17,7 @@ public class TortugaController implements ActionListener  {
 		this.vue = vue;
 		this.jeu = jeu;
 		
-		this.tortugaCourante = new Tortue(vue);
+		this.tortugaCourante = new Tortue();
 		tortugaCourante.addObserver(vue.getFeuille());
 		
 		this.jeu.addTortue(tortugaCourante);
