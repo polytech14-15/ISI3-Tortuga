@@ -49,7 +49,7 @@ public class FeuilleDessin extends JPanel {
 	public void showTurtles(Graphics g) {
 		for(Iterator it = tortues.iterator();it.hasNext();) {
 			Tortue t = (Tortue) it.next();
-			t.drawTurtle(g);
+//			t.drawTurtle(g);
 		}
 	}
 }
