@@ -30,7 +30,7 @@ import java.io.*;
 **************************************************************************/
 
 
-public class SimpleLogo extends JFrame {
+public class SimpleLogo extends JFrame implements Observer{
 	public static final Dimension VGAP = new Dimension(1,5);
 	public static final Dimension HGAP = new Dimension(5,1);
 
@@ -68,8 +68,9 @@ public class SimpleLogo extends JFrame {
 		super("un logo tout simple");
 		
 		this.jeu = new Jeu();
-		logoInit();
+		this.initFeuille();
 		this.con = new TortugaController(this, jeu);
+		logoInit();
 		
 		
 		
@@ -168,10 +169,10 @@ public class SimpleLogo extends JFrame {
 
 		getContentPane().add(p2,"South");
 
-		feuille = new FeuilleDessin(this.jeu); //500, 400);
-		feuille.setBackground(Color.white);
-		feuille.setSize(new Dimension(600,400));
-		feuille.setPreferredSize(new Dimension(600,400));
+//		feuille = new FeuilleDessin(this.jeu); //500, 400);
+//		feuille.setBackground(Color.white);
+//		feuille.setSize(new Dimension(600,400));
+//		feuille.setPreferredSize(new Dimension(600,400));
 			
 		getContentPane().add(feuille,"Center");
 		
@@ -186,6 +187,13 @@ public class SimpleLogo extends JFrame {
 
 		pack();
 		setVisible(true);
+	}
+	
+	private void initFeuille(){
+		feuille = new FeuilleDessin(this.jeu); //500, 400);
+		feuille.setBackground(Color.white);
+		feuille.setSize(new Dimension(600,400));
+		feuille.setPreferredSize(new Dimension(600,400));
 	}
 
 	public String getInputValue(){
@@ -307,5 +315,12 @@ public class SimpleLogo extends JFrame {
 			else
 				menuItem.setAccelerator(KeyStroke.getKeyStroke(key, 0, false));
 		}
+	}
+
+	@Override
+	public void update(Observable arg0, Object arg1) {
+		if (this.feuille == null) System.out.println("esf");
+		this.feuille.setTortues(this.jeu.getTortues());
+		this.feuille.repaint();
 	}
 }

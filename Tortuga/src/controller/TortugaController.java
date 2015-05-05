@@ -18,7 +18,7 @@ public class TortugaController implements ActionListener  {
 		this.jeu = jeu;
 		
 		this.tortugaCourante = new Tortue();
-		tortugaCourante.addObserver(this.vue.getFeuille());
+		tortugaCourante.addObserver(this.vue);
 		
 		this.jeu.addTortue(tortugaCourante);
 		
@@ -28,10 +28,9 @@ public class TortugaController implements ActionListener  {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		String c = e.getActionCommand();
-		System.out.println(c);
+		System.out.println("Command: " + c);
 		// actions des boutons du haut
 		if (c.equals("Avancer")) {
-			System.out.println("command avancer");
 			try {
 				int v = Integer.parseInt(vue.getInputValue());
 				avancer(v);

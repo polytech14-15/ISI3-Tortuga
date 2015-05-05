@@ -25,7 +25,7 @@ import java.io.*;
  * @version 2.0
  */
 
-public class FeuilleDessin extends JPanel implements Observer{
+public class FeuilleDessin extends JPanel {
 	
 	private Jeu jeu;
 	private List<Tortue> tortues; // la liste des tortues enregistrees
@@ -108,10 +108,4 @@ public class FeuilleDessin extends JPanel implements Observer{
 		graph.setColor(Color.green);
 		graph.fillPolygon(arrow);
     }
-	
-	@Override
-	public void update(Observable o, Object arg) {
-		this.setTortues(jeu.getTortues());
-		this.repaint();
-	}
 }
