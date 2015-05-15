@@ -12,8 +12,8 @@ public class Jeu extends Observable {
 	}
 	
 	public void addTortue(Tortue t){
-		this.tortues.add(t);
-
+		tortues.add(t);
+		
 		setChanged();
 		notifyObservers();
 	}

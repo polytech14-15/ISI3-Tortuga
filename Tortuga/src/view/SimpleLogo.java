@@ -9,6 +9,7 @@ import javax.swing.*;
 import controller.TortugaController;
 import model.Jeu;
 import model.Tortue;
+import model.TortueAmelioree;
 
 import java.awt.event.*;
 import java.util.*;
@@ -38,8 +39,11 @@ public class SimpleLogo extends JFrame implements Observer{
 	private TortugaController con;
 	private FeuilleDessin feuille;
 //	private Tortue courante;
-	private JTextField inputValue;
+	private JTextField inputDistance;
+	private JTextField inputName;
 	private JComboBox colorList;
+	private JLabel tCourante;
+	private JLabel lDistEucli;
 
 
 	/**
@@ -100,11 +104,11 @@ public class SimpleLogo extends JFrame implements Observer{
 		addButton(toolBar,"Effacer","Nouveau dessin","/icons/index.png");
 		
 		toolBar.add(Box.createRigidArea(HGAP));
-		inputValue=new JTextField("45",5);
-		toolBar.add(inputValue);
-		addButton(toolBar, "Avancer", "Avancer 50", null);
-		addButton(toolBar, "Droite", "Droite 45", null);
-		addButton(toolBar, "Gauche", "Gauche 45", null);
+		inputDistance=new JTextField("45",5);
+		toolBar.add(inputDistance);
+		addButton(toolBar, "Avancer", "Avancer", null);
+		addButton(toolBar, "Droite", "Droite", null);
+		addButton(toolBar, "Gauche", "Gauche", null);
 //		addButton(toolBar, "Lever", "Lever Crayon", null);
 //		addButton(toolBar, "Baisser", "Baisser Crayon", null);
 
@@ -159,20 +163,25 @@ public class SimpleLogo extends JFrame implements Observer{
 //		p2.add(b22);
 //		b22.addActionListener(con);
 		
+		JLabel colorLabel = new JLabel("Nom: ");
+		toolBar2.add(colorLabel);
+		inputName =new JTextField(5);
+		toolBar2.add(inputName);
+		
 		String[] colorStrings = {"noir", "bleu", "cyan","gris fonce","rouge",
 				 "vert", "gris clair", "magenta", "orange",
 				 "gris", "rose", "jaune"};
 
 		// Create the combo box
 //		buttonPanel2.add(Box.createRigidArea(HGAP));
-		JLabel colorLabel = new JLabel("Couleur: ");
-		buttonPanel2.add(colorLabel);
+		JLabel colorLabel2 = new JLabel("Couleur: ");
+		toolBar2.add(colorLabel2);
 		this.colorList = new JComboBox(colorStrings);
 		colorList.setActionCommand("choixCouleur");
-		buttonPanel2.add(colorList);
+		toolBar2.add(colorList);
 		
 		colorList.addActionListener(con);
-		addButton(buttonPanel2, "Ajouter", "Ajouter une tortue", null);
+		addButton(toolBar2, "Ajouter", "Ajouter une tortue", null);
 //		getContentPane().add(p2,"South");
 
 //		feuille = new FeuilleDessin(this.jeu); //500, 400);
@@ -181,6 +190,20 @@ public class SimpleLogo extends JFrame implements Observer{
 //		feuille.setPreferredSize(new Dimension(600,400));
 			
 		getContentPane().add(feuille,"Center");
+		
+		JPanel panel3 = new JPanel(new GridLayout(0,1,0,0));;
+		getContentPane().add(panel3, BorderLayout.LINE_END);
+		
+		JLabel lInfos = new JLabel("<html> -Clic gauche sur une tortue pour<br>la sélectionner<br><br>"
+				+ "-Clic droit sur une tortue pour <br> ajouter/enlever un ami<br><br>"
+				+ "-Clic milieu sur une tortue pour <br>calculer la distance euclidinne <br>depuis la tortue courante");
+		panel3.add(lInfos);
+		
+		tCourante = new JLabel();
+		panel3.add(tCourante);
+		
+		lDistEucli = new JLabel();
+		panel3.add(lDistEucli);
 		
 //		// Creation de la tortue
 //		Tortue tortue = new Tortue();
@@ -204,9 +227,14 @@ public class SimpleLogo extends JFrame implements Observer{
 		feuille.setPreferredSize(new Dimension(600,400));
 	}
 
-	public String getInputValue(){
-		String s = inputValue.getText();
+	public String getInputDistance(){
+		String s = inputDistance.getText();
 		return(s);
+	}
+	
+	public String getInputName(){
+		if (inputName == null) System.out.println("ytvukblnl");
+		return inputName.getText();
 	}
 	
 	public int getColorIndex(){
@@ -327,9 +355,18 @@ public class SimpleLogo extends JFrame implements Observer{
 
 	@Override
 	public void update(Observable arg0, Object arg1) {
-		if (this.feuille == null) System.out.println("esf");
 		this.feuille.setTortues(this.jeu.getTortues());
 		this.feuille.repaint();
+		
+		if (this.con != null){
+			this.tCourante.setText("Tortue Courante: "+((TortueAmelioree)this.con.getTortugaCourante()).getName()+"   ");
+			
+			if (this.con.getLastDistanceCalculated() != null){
+				this.lDistEucli.setText("<html>La distance euclidienne <br>est de : "+this.con.getLastDistanceCalculated()+"</html>");
+			}else{
+				this.lDistEucli.setText("");
+			}
+		}
 	}
 
 }

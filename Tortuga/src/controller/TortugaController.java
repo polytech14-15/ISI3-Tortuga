@@ -5,6 +5,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+import javax.swing.SwingUtilities;
+
 import model.*;
 import view.*;
 
@@ -17,11 +19,13 @@ public class TortugaController implements ActionListener, MouseListener  {
 	private SimpleLogo vue;
 	private Jeu jeu;
 	
+	private Integer lastDistanceCalculated;
+	
 	public TortugaController(SimpleLogo vue, Jeu jeu){
 		this.vue = vue;
 		this.jeu = jeu;
 		
-		this.tortugaCourante = new Tortue();
+		this.tortugaCourante = new TortueAmelioree();
 		this.tortugaCourante.addObserver(this.vue);
 		this.jeu.addObserver(this.vue);
 		
@@ -30,37 +34,57 @@ public class TortugaController implements ActionListener, MouseListener  {
 		reset();
 	}
 	
+	public Tortue getTortugaCourante(){
+		return this.tortugaCourante;
+	}
+	
+	public Integer getLastDistanceCalculated(){
+		return this.lastDistanceCalculated;
+	}
+	
+	public void reset() {
+		// on initialise la position de la tortue
+		for (Tortue t : jeu.getTortues()){
+			t.reset();
+			t.setPosition(vue.getFeuille().getSize().width/2, vue.getFeuille().getSize().height/2);
+		}
+  	}
+	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		String c = e.getActionCommand();
-		System.out.println("Command: " + c);
+		this.lastDistanceCalculated = null;
+//		System.out.println("Command: " + c);
 		// actions des boutons du haut
 		if (c.equals("Avancer")) {
 			try {
-				int v = Integer.parseInt(vue.getInputValue());
-				avancer(v);
+				int v = Integer.parseInt(vue.getInputDistance());
+				this.tortugaCourante.avancer(v);
+				if (this.tortugaCourante instanceof TortueAmelioree){
+					((TortueAmelioree) this.tortugaCourante).checkProximity(this.jeu.getTortues());
+				}
 			} catch (NumberFormatException ex){
-				System.err.println("ce n'est pas un nombre : " + vue.getInputValue());
+				System.err.println("ce n'est pas un nombre : " + vue.getInputDistance());
 			}
 			
 		}
 		else if (c.equals("Droite")) {
 			try {
-				int v = Integer.parseInt(vue.getInputValue());
-				droite(v);
+				int v = Integer.parseInt(vue.getInputDistance());
+				this.tortugaCourante.droite(v);
 			} catch (NumberFormatException ex){
-				System.err.println("ce n'est pas un nombre : " + vue.getInputValue());
+				System.err.println("ce n'est pas un nombre : " + vue.getInputDistance());
 			}
 		}
 		else if (c.equals("Gauche")) {
 			try {
-				int v = Integer.parseInt(vue.getInputValue());
-				gauche(v);
+				int v = Integer.parseInt(vue.getInputDistance());
+				this.tortugaCourante.gauche(v);
 			} catch (NumberFormatException ex){
-				System.err.println("ce n'est pas un nombre : " + vue.getInputValue());
+				System.err.println("ce n'est pas un nombre : " + vue.getInputDistance());
 			}
 		} else if (c.equals("Ajouter")){
-			Tortue t = new Tortue(vue.getColorIndex(), vue.getFeuille().getSize().width/2, vue.getFeuille().getSize().height/2);
+			Tortue t = new TortueAmelioree(vue.getColorIndex(), vue.getFeuille().getSize().width/2, vue.getFeuille().getSize().height/2, vue.getInputName());
 			this.tortugaCourante = t;
 			this.jeu.addTortue(t);
 			this.tortugaCourante.addObserver(this.vue);
@@ -86,45 +110,39 @@ public class TortugaController implements ActionListener, MouseListener  {
 //		else if(c.equals("choixCouleur")){
 //			this.tortugaCourante.setColor(vue.getColorIndex());
 //		}
+		
 	}
 	
-	public void reset() {
-		// on initialise la position de la tortue
-		for (Tortue t : jeu.getTortues()){
-			t.reset();
-			t.setPosition(vue.getFeuille().getSize().width/2, vue.getFeuille().getSize().height/2);
-		}
-  	}
-	
-	// avancer de n pas
-		public void avancer(int dist) {
-			int newX = (int) Math.round(tortugaCourante.getX()+dist*Math.cos(Tortue.ratioDegRad*tortugaCourante.getDirection()));
-			int newY = (int) Math.round(tortugaCourante.getY()+dist*Math.sin(Tortue.ratioDegRad*tortugaCourante.getDirection()));
-			this.tortugaCourante.setPosition(newX, newY);
-		}
-
-		// aller a droite
-		public void droite(int ang) {
-			this.tortugaCourante.setDirection((tortugaCourante.getDirection() + ang) % 360);
-		}
-
-		// aller a gauche
-		public void gauche(int ang) {
-			this.tortugaCourante.setDirection((tortugaCourante.getDirection() - ang) % 360);
-		}
-
 		@Override
 		public void mouseClicked(MouseEvent e) {
 			int xMouse = e.getX();
 			int yMouse = e.getY();
 			
 			for (Tortue t : this.jeu.getTortues()){
-				if (xMouse >= t.getX() - MARGIN_ERROR && xMouse <= t.getX() + MARGIN_ERROR 
+				if ( t != this.tortugaCourante && t instanceof TortueAmelioree
+						&& xMouse >= t.getX() - MARGIN_ERROR && xMouse <= t.getX() + MARGIN_ERROR 
 						&& yMouse >= t.getY() - MARGIN_ERROR && yMouse <= t.getY() + MARGIN_ERROR){
-					this.tortugaCourante = t;
+
+					if(SwingUtilities.isLeftMouseButton(e)){
+						this.tortugaCourante = t;
+						this.tortugaCourante.setColor(this.tortugaCourante.getColor());//simule un touch pour mettre a jour la vue
+					} else if (SwingUtilities.isRightMouseButton(e)){
+						// Add friend
+						if (this.tortugaCourante instanceof TortueAmelioree && !((TortueAmelioree)this.tortugaCourante).getFriends().contains(t)){
+							((TortueAmelioree)this.tortugaCourante).addFriend(t);
+						} else {
+							((TortueAmelioree)this.tortugaCourante).removeFriend(t);
+						}
+					} else if (SwingUtilities.isMiddleMouseButton(e)){
+						if (this.tortugaCourante instanceof TortueAmelioree){
+							this.lastDistanceCalculated = ((TortueAmelioree)this.tortugaCourante).distanceEuclidienne(t);
+							this.tortugaCourante.setColor(this.tortugaCourante.getColor());//simule un touch pour mettre a jour la vue
+						}
+					}
 					break;
 				}
 			}
+
 		}
 
 		@Override
