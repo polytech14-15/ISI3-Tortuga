@@ -2,7 +2,7 @@ package model;
 
 import java.awt.Color;
 
-public class Util {
+public class ColorUtil {
 
 	public static Color decodeColor(int c) {
 		switch(c) {

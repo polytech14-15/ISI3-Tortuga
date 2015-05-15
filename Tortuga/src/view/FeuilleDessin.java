@@ -4,6 +4,7 @@ package view;
 
 import javax.swing.*;
 
+import model.ColorUtil;
 import model.Jeu;
 import model.Tortue;
 
@@ -42,12 +43,12 @@ public class FeuilleDessin extends JPanel {
 		this.tortues = tortues;
 	}
 
-	public void reset() {
-		for (Iterator it = tortues.iterator();it.hasNext();) {
-			Tortue t = (Tortue) it.next();
-			t.reset();
-		}
-	}
+//	public void reset() {
+//		for (Iterator it = tortues.iterator();it.hasNext();) {
+//			Tortue t = (Tortue) it.next();
+//			t.reset();
+//		}
+//	}
 
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
@@ -105,7 +106,8 @@ public class FeuilleDessin extends JPanel {
 		  (int) Math.round( p2.y+r*Math.sin(theta - alpha) ));
 
 		arrow.addPoint(p2.x,p2.y);
-		graph.setColor(Color.green);
+		
+		graph.setColor(ColorUtil.decodeColor(t.getColor()));
 		graph.fillPolygon(arrow);
     }
 }

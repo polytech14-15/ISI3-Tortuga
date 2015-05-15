@@ -2,11 +2,15 @@ package controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import model.*;
 import view.*;
 
-public class TortugaController implements ActionListener  {
+public class TortugaController implements ActionListener, MouseListener  {
+	
+	private static final int MARGIN_ERROR = 10;
 
 	private Tortue tortugaCourante;
 	
@@ -18,7 +22,8 @@ public class TortugaController implements ActionListener  {
 		this.jeu = jeu;
 		
 		this.tortugaCourante = new Tortue();
-		tortugaCourante.addObserver(this.vue);
+		this.tortugaCourante.addObserver(this.vue);
+		this.jeu.addObserver(this.vue);
 		
 		this.jeu.addTortue(tortugaCourante);
 		
@@ -54,6 +59,11 @@ public class TortugaController implements ActionListener  {
 			} catch (NumberFormatException ex){
 				System.err.println("ce n'est pas un nombre : " + vue.getInputValue());
 			}
+		} else if (c.equals("Ajouter")){
+			Tortue t = new Tortue(vue.getColorIndex(), vue.getFeuille().getSize().width/2, vue.getFeuille().getSize().height/2);
+			this.tortugaCourante = t;
+			this.jeu.addTortue(t);
+			this.tortugaCourante.addObserver(this.vue);
 		}
 //		else if (c.equals("Lever")) 
 //			courante.leverCrayon();
@@ -72,9 +82,10 @@ public class TortugaController implements ActionListener  {
 		}
 		else if (c.equals("Quitter")){
 			vue.quitter();
-		} else if(c.equals("choixCouleur")){
-			this.tortugaCourante.setColor(vue.getColorIndex());
-		}
+		} 
+//		else if(c.equals("choixCouleur")){
+//			this.tortugaCourante.setColor(vue.getColorIndex());
+//		}
 	}
 	
 	public void reset() {
@@ -87,20 +98,57 @@ public class TortugaController implements ActionListener  {
 	
 	// avancer de n pas
 		public void avancer(int dist) {
-			int newX = (int) Math.round(tortugaCourante.getX()+dist*Math.cos(tortugaCourante.ratioDegRad*tortugaCourante.getDirection()));
-			int newY = (int) Math.round(tortugaCourante.getY()+dist*Math.sin(tortugaCourante.ratioDegRad*tortugaCourante.getDirection()));
-			
-			tortugaCourante.setPosition(newX, newY);
+			int newX = (int) Math.round(tortugaCourante.getX()+dist*Math.cos(Tortue.ratioDegRad*tortugaCourante.getDirection()));
+			int newY = (int) Math.round(tortugaCourante.getY()+dist*Math.sin(Tortue.ratioDegRad*tortugaCourante.getDirection()));
+			this.tortugaCourante.setPosition(newX, newY);
 		}
 
 		// aller a droite
 		public void droite(int ang) {
-			tortugaCourante.setDirection((tortugaCourante.getDirection() + ang) % 360);
+			this.tortugaCourante.setDirection((tortugaCourante.getDirection() + ang) % 360);
 		}
 
 		// aller a gauche
 		public void gauche(int ang) {
-			tortugaCourante.setDirection((tortugaCourante.getDirection() - ang) % 360);
+			this.tortugaCourante.setDirection((tortugaCourante.getDirection() - ang) % 360);
+		}
+
+		@Override
+		public void mouseClicked(MouseEvent e) {
+			int xMouse = e.getX();
+			int yMouse = e.getY();
+			
+			for (Tortue t : this.jeu.getTortues()){
+				if (xMouse >= t.getX() - MARGIN_ERROR && xMouse <= t.getX() + MARGIN_ERROR 
+						&& yMouse >= t.getY() - MARGIN_ERROR && yMouse <= t.getY() + MARGIN_ERROR){
+					this.tortugaCourante = t;
+					break;
+				}
+			}
+		}
+
+		@Override
+		public void mouseEntered(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mouseExited(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mousePressed(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mouseReleased(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
 		}
 
 	

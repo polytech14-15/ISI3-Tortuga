@@ -12,8 +12,10 @@ public class Jeu extends Observable {
 	}
 	
 	public void addTortue(Tortue t){
-		tortues.add(t);
-		
+		this.tortues.add(t);
+
+		setChanged();
+		notifyObservers();
 	}
 	
 	public ArrayList<Tortue> getTortues(){

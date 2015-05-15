@@ -55,13 +55,19 @@ public class Tortue extends Observable {
 		//			reset();
 					
 	}
+	
+	public Tortue(int color, int newX, int newY){
+		this.coul = color;
+		this.x = newX;
+		this.y = newY;
+		this.dir = -90;
+	}
 
 	// méthodes
 	
 	public void reset() {
 		this.setPosition(0, 0);
 		this.setDirection(-90);
-		this.setColor(0);
 		setChanged();
 		notifyObservers();
 	}

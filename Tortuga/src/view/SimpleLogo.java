@@ -65,7 +65,7 @@ public class SimpleLogo extends JFrame implements Observer{
 	}
 
 	public SimpleLogo() {
-		super("un logo tout simple");
+		super("Tortuga");
 		
 		this.jeu = new Jeu();
 		this.initFeuille();
@@ -105,22 +105,10 @@ public class SimpleLogo extends JFrame implements Observer{
 		addButton(toolBar, "Avancer", "Avancer 50", null);
 		addButton(toolBar, "Droite", "Droite 45", null);
 		addButton(toolBar, "Gauche", "Gauche 45", null);
-		addButton(toolBar, "Lever", "Lever Crayon", null);
-		addButton(toolBar, "Baisser", "Baisser Crayon", null);
+//		addButton(toolBar, "Lever", "Lever Crayon", null);
+//		addButton(toolBar, "Baisser", "Baisser Crayon", null);
 
-		String[] colorStrings = {"noir", "bleu", "cyan","gris fonce","rouge",
-								 "vert", "gris clair", "magenta", "orange",
-								 "gris", "rose", "jaune"};
-
-		// Create the combo box
-		toolBar.add(Box.createRigidArea(HGAP));
-		JLabel colorLabel = new JLabel("   Couleur: ");
-		toolBar.add(colorLabel);
-		this.colorList = new JComboBox(colorStrings);
-		colorList.setActionCommand("choixCouleur");
-		toolBar.add(colorList);
-
-		colorList.addActionListener(con);
+		
 //				new ActionListener() {
 //			public void actionPerformed(ActionEvent e) {
 //				JComboBox cb = (JComboBox)e.getSource();
@@ -129,8 +117,8 @@ public class SimpleLogo extends JFrame implements Observer{
 //			}
 //		}
 //				);
-
-
+		
+		
 		// Menus
 		JMenuBar menubar=new JMenuBar();
 		setJMenuBar(menubar);	// on installe le menu bar
@@ -145,8 +133,8 @@ public class SimpleLogo extends JFrame implements Observer{
 		addMenuItem(menuCommandes, "Avancer", "Avancer", -1);
 		addMenuItem(menuCommandes, "Droite", "Droite", -1);
 		addMenuItem(menuCommandes, "Gauche", "Gauche", -1);
-		addMenuItem(menuCommandes, "Lever Crayon", "Lever", -1);
-		addMenuItem(menuCommandes, "Baisser Crayon", "Baisser", -1);
+//		addMenuItem(menuCommandes, "Lever Crayon", "Lever", -1);
+//		addMenuItem(menuCommandes, "Baisser Crayon", "Baisser", -1);
 
 		JMenu menuHelp=new JMenu("Aide"); // on installe le premier menu
 		menubar.add(menuHelp);
@@ -156,18 +144,36 @@ public class SimpleLogo extends JFrame implements Observer{
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 
 		// les boutons du bas
-		JPanel p2 = new JPanel(new GridLayout());
-		JButton b20 = new JButton("Proc1");
-		p2.add(b20);
-		b20.addActionListener(con);
-		JButton b21 = new JButton("Proc2");
-		p2.add(b21);
-		b21.addActionListener(con);
-		JButton b22 = new JButton("Proc3");
-		p2.add(b22);
-		b22.addActionListener(con);
+		JToolBar toolBar2 = new JToolBar();
+		JPanel buttonPanel2 = new JPanel();
+		buttonPanel2.add(toolBar2);
 
-		getContentPane().add(p2,"South");
+		getContentPane().add(buttonPanel2,"South");
+//		JButton b20 = new JButton("Proc1");
+//		p2.add(b20);
+//		b20.addActionListener(con);
+//		JButton b21 = new JButton("Proc2");
+//		p2.add(b21);
+//		b21.addActionListener(con);
+//		JButton b22 = new JButton("Proc3");
+//		p2.add(b22);
+//		b22.addActionListener(con);
+		
+		String[] colorStrings = {"noir", "bleu", "cyan","gris fonce","rouge",
+				 "vert", "gris clair", "magenta", "orange",
+				 "gris", "rose", "jaune"};
+
+		// Create the combo box
+//		buttonPanel2.add(Box.createRigidArea(HGAP));
+		JLabel colorLabel = new JLabel("Couleur: ");
+		buttonPanel2.add(colorLabel);
+		this.colorList = new JComboBox(colorStrings);
+		colorList.setActionCommand("choixCouleur");
+		buttonPanel2.add(colorList);
+		
+		colorList.addActionListener(con);
+		addButton(buttonPanel2, "Ajouter", "Ajouter une tortue", null);
+//		getContentPane().add(p2,"South");
 
 //		feuille = new FeuilleDessin(this.jeu); //500, 400);
 //		feuille.setBackground(Color.white);
@@ -184,6 +190,8 @@ public class SimpleLogo extends JFrame implements Observer{
 //		
 //		courante = tortue;
 //		feuille.addTortue(tortue);
+		
+		feuille.addMouseListener(con);
 
 		pack();
 		setVisible(true);
@@ -323,4 +331,5 @@ public class SimpleLogo extends JFrame implements Observer{
 		this.feuille.setTortues(this.jeu.getTortues());
 		this.feuille.repaint();
 	}
+
 }
