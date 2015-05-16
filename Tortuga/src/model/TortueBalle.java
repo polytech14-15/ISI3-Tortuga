@@ -4,7 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
 
-public class TortueBall extends Tortue{
+public class TortueBalle extends Tortue{
 
 	@Override
 	public void draw(Graphics graph) {
