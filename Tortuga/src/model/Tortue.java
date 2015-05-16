@@ -12,12 +12,6 @@ public abstract class Tortue extends Observable {
 	protected static int NB_TORTUE = 0;
 
 	// Attributs
-	
-	//plus besoin de ça
-	//		protected ArrayList<Segment> listSegments; // Trace de la tortue
-//	protected boolean crayon; // par defaut on suppose qu'on dessine
-	
-	
 	protected int x, y;	// Coordonnees de la tortue
 	protected int dir;	// Direction de la tortue (angle en degres)
 	protected int coul;
@@ -50,14 +44,6 @@ public abstract class Tortue extends Observable {
 	// constructeur
 	public Tortue() {
 		NB_TORTUE++;
-		// feuille = f;
-		// feuille.addTortue(this);	
-
-		// plus besoin de ça
-		//			listSegments = new ArrayList<Segment>();
-
-		//			reset();
-					
 	}
 	
 	public Tortue(int color, int newX, int newY){
@@ -69,7 +55,6 @@ public abstract class Tortue extends Observable {
 	}
 
 	// méthodes
-	
 	public void reset() {
 		this.setPosition(0, 0);
 		this.setDirection(-90);

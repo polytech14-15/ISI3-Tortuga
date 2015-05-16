@@ -62,12 +62,6 @@ public class TortueAmelioree extends Tortue{
 	public void draw(Graphics graph) {
 		if (graph==null)
 			return;
-		
-		// Dessine les segments
-//		for(Iterator it = listSegments.iterator();it.hasNext();) {
-//			Segment seg = (Segment) it.next();
-//			seg.drawSegment(graph);
-//		}
 
 		//Calcule les 3 coins du triangle a partir de
 		// la position de la tortue p

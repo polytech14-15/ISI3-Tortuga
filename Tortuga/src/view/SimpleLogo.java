@@ -1,19 +1,15 @@
 package view;
 
-// package logo;
-
 import java.awt.*;
 
 import javax.swing.*;
 
 import controller.TortugaController;
 import model.Jeu;
-import model.Tortue;
 import model.TortueAmelioree;
 
 import java.awt.event.*;
 import java.util.*;
-import java.io.*;
 
 
 /*************************************************************************
@@ -38,7 +34,6 @@ public class SimpleLogo extends JFrame implements Observer{
 	private Jeu jeu;
 	private TortugaController con;
 	private FeuilleDessin feuille;
-//	private Tortue courante;
 	private JTextField inputDistance;
 	private JTextField inputName;
 	private JComboBox colorList;
@@ -76,8 +71,6 @@ public class SimpleLogo extends JFrame implements Observer{
 		this.con = new TortugaController(this, jeu);
 		logoInit();
 		
-		
-		
 		addWindowListener(new WindowAdapter() {
 		    @Override
 		    public void windowClosing(WindowEvent arg0) {
@@ -85,10 +78,6 @@ public class SimpleLogo extends JFrame implements Observer{
 		        System.exit(0);
 		    }
 		});
-		
-		
-		
-	
 	}
 
 	public void logoInit() {
@@ -109,20 +98,7 @@ public class SimpleLogo extends JFrame implements Observer{
 		addButton(toolBar, "Avancer", "Avancer", null);
 		addButton(toolBar, "Droite", "Droite", null);
 		addButton(toolBar, "Gauche", "Gauche", null);
-//		addButton(toolBar, "Lever", "Lever Crayon", null);
-//		addButton(toolBar, "Baisser", "Baisser Crayon", null);
 
-		
-//				new ActionListener() {
-//			public void actionPerformed(ActionEvent e) {
-//				JComboBox cb = (JComboBox)e.getSource();
-//				int n = cb.getSelectedIndex();
-//				courante.setColor(n);
-//			}
-//		}
-//				);
-		
-		
 		// Menus
 		JMenuBar menubar=new JMenuBar();
 		setJMenuBar(menubar);	// on installe le menu bar
@@ -137,8 +113,6 @@ public class SimpleLogo extends JFrame implements Observer{
 		addMenuItem(menuCommandes, "Avancer", "Avancer", -1);
 		addMenuItem(menuCommandes, "Droite", "Droite", -1);
 		addMenuItem(menuCommandes, "Gauche", "Gauche", -1);
-//		addMenuItem(menuCommandes, "Lever Crayon", "Lever", -1);
-//		addMenuItem(menuCommandes, "Baisser Crayon", "Baisser", -1);
 
 		JMenu menuHelp=new JMenu("Aide"); // on installe le premier menu
 		menubar.add(menuHelp);
@@ -153,15 +127,6 @@ public class SimpleLogo extends JFrame implements Observer{
 		buttonPanel2.add(toolBar2);
 
 		getContentPane().add(buttonPanel2,"South");
-//		JButton b20 = new JButton("Proc1");
-//		p2.add(b20);
-//		b20.addActionListener(con);
-//		JButton b21 = new JButton("Proc2");
-//		p2.add(b21);
-//		b21.addActionListener(con);
-//		JButton b22 = new JButton("Proc3");
-//		p2.add(b22);
-//		b22.addActionListener(con);
 		
 		JLabel colorLabel = new JLabel("Nom: ");
 		toolBar2.add(colorLabel);
@@ -173,7 +138,6 @@ public class SimpleLogo extends JFrame implements Observer{
 				 "gris", "rose", "jaune"};
 
 		// Create the combo box
-//		buttonPanel2.add(Box.createRigidArea(HGAP));
 		JLabel colorLabel2 = new JLabel("Couleur: ");
 		toolBar2.add(colorLabel2);
 		this.colorList = new JComboBox(colorStrings);
@@ -182,14 +146,8 @@ public class SimpleLogo extends JFrame implements Observer{
 		
 		colorList.addActionListener(con);
 		addButton(toolBar2, "Ajouter", "Ajouter une tortue", null);
-//		getContentPane().add(p2,"South");
 
-//		feuille = new FeuilleDessin(this.jeu); //500, 400);
-//		feuille.setBackground(Color.white);
-//		feuille.setSize(new Dimension(600,400));
-//		feuille.setPreferredSize(new Dimension(600,400));
-			
-		
+		// Information de gauche
 		JPanel panel3 = new JPanel(new GridLayout(0,1,0,0));;
 		getContentPane().add(panel3, BorderLayout.LINE_START);
 		
@@ -204,16 +162,7 @@ public class SimpleLogo extends JFrame implements Observer{
 		lDistEucli = new JLabel();
 		panel3.add(lDistEucli);
 		
-//		// Creation de la tortue
-//		Tortue tortue = new Tortue();
-//		
-//		// Deplacement de la tortue au centre de la feuille
-//		tortue.setPosition(500/2, 400/2); 		
-//		
-//		courante = tortue;
-//		feuille.addTortue(tortue);
-		
-
+		// Feuille 
 		getContentPane().add(feuille,"Center");
 		
 		feuille.addMouseListener(con);
@@ -242,80 +191,6 @@ public class SimpleLogo extends JFrame implements Observer{
 	public int getColorIndex(){
 		return colorList.getSelectedIndex();
 	}
-
-//	/** la gestion des actions des boutons */
-//	public void actionPerformed(ActionEvent e)
-//	{
-//		String c = e.getActionCommand();
-//
-//		// actions des boutons du haut
-//		if (c.equals("Avancer")) {
-//			System.out.println("command avancer");
-//			try {
-//				int v = Integer.parseInt(inputValue.getText());
-//				courante.avancer(v);
-//			} catch (NumberFormatException ex){
-//				System.err.println("ce n'est pas un nombre : " + inputValue.getText());
-//			}
-//			
-//		}
-//		else if (c.equals("Droite")) {
-//			try {
-//				int v = Integer.parseInt(inputValue.getText());
-//				courante.droite(v);
-//			} catch (NumberFormatException ex){
-//				System.err.println("ce n'est pas un nombre : " + inputValue.getText());
-//			}
-//		}
-//		else if (c.equals("Gauche")) {
-//			try {
-//				int v = Integer.parseInt(inputValue.getText());
-//				courante.gauche(v);
-//			} catch (NumberFormatException ex){
-//				System.err.println("ce n'est pas un nombre : " + inputValue.getText());
-//			}
-//		}
-//		else if (c.equals("Lever")) 
-//			courante.leverCrayon();
-//		else if (c.equals("Baisser"))
-//			courante.baisserCrayon();
-//		// actions des boutons du bas
-//		else if (c.equals("Proc1"))
-//			proc1();
-//		else if (c.equals("Proc2"))
-//			proc2();
-//		else if (c.equals("Proc3"))
-//			proc3();
-//		else if (c.equals("Effacer"))
-//			effacer();
-//		else if (c.equals("Quitter"))
-//			quitter();
-//
-//		feuille.repaint();
-//	}
-
-//  	/** les procedures Logo qui combine plusieurs commandes..*/
-//	public void proc1() {
-//		courante.carre();
-//	}
-//
-//	public void proc2() {
-//		courante.poly(60,8);
-//	}
-//
-//	public void proc3() {
-//		courante.spiral(50,40,6);
-//	}
-//
-//	// efface tout et reinitialise la feuille
-//	public void effacer() {
-//		feuille.reset();
-//		feuille.repaint();
-//
-//		// Replace la tortue au centre
-//		Dimension size = feuille.getSize();
-//		courante.setPosition(size.width/2, size.height/2);
-//	}
 
 	//utilitaires pour installer des boutons et des menus
 	public void addButton(JComponent p, String name, String tooltiptext, String imageName) {

@@ -88,29 +88,11 @@ public class TortugaController implements ActionListener, MouseListener  {
 			this.tortugaCourante = t;
 			this.jeu.addTortue(t);
 			this.tortugaCourante.addObserver(this.vue);
-		}
-//		else if (c.equals("Lever")) 
-//			courante.leverCrayon();
-//		else if (c.equals("Baisser"))
-//			courante.baisserCrayon();
-		// actions des boutons du bas
-//		else if (c.equals("Proc1"))
-//			proc1();
-//		else if (c.equals("Proc2"))
-//			proc2();
-//		else if (c.equals("Proc3"))
-//			proc3();
-		else if (c.equals("Effacer")) {
+		} else if (c.equals("Effacer")) {
 			reset();
-//			effacer();
-		}
-		else if (c.equals("Quitter")){
+		} else if (c.equals("Quitter")){
 			vue.quitter();
 		} 
-//		else if(c.equals("choixCouleur")){
-//			this.tortugaCourante.setColor(vue.getColorIndex());
-//		}
-		
 	}
 	
 		@Override
