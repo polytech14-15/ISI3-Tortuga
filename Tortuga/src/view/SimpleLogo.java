@@ -146,6 +146,11 @@ public class SimpleLogo extends JFrame implements Observer{
 		lDistEucli = new JLabel();
 		panel3.add(lDistEucli);
 		
+		//Menu droite
+		JPanel panel4 = new JPanel(new GridLayout(0,1,0,0));;
+		getContentPane().add(panel4, BorderLayout.LINE_END);
+		addButton(panel4, "Lancer la simulation", "Lancer la simulation", null);
+		
 		// Feuille 
 		getContentPane().add(feuille,"Center");
 		

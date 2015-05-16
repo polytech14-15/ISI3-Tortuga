@@ -92,7 +92,9 @@ public class TortugaController implements ActionListener, MouseListener  {
 			reset();
 		} else if (c.equals("Quitter")){
 			vue.quitter();
-		} 
+		} else if (c.equals("Lancer la simulation")){
+			//TODO
+		}
 	}
 	
 		@Override
