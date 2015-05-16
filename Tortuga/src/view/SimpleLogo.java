@@ -189,10 +189,9 @@ public class SimpleLogo extends JFrame implements Observer{
 //		feuille.setSize(new Dimension(600,400));
 //		feuille.setPreferredSize(new Dimension(600,400));
 			
-		getContentPane().add(feuille,"Center");
 		
 		JPanel panel3 = new JPanel(new GridLayout(0,1,0,0));;
-		getContentPane().add(panel3, BorderLayout.LINE_END);
+		getContentPane().add(panel3, BorderLayout.LINE_START);
 		
 		JLabel lInfos = new JLabel("<html> -Clic gauche sur une tortue pour<br>la sélectionner<br><br>"
 				+ "-Clic droit sur une tortue pour <br> ajouter/enlever un ami<br><br>"
@@ -213,6 +212,9 @@ public class SimpleLogo extends JFrame implements Observer{
 //		
 //		courante = tortue;
 //		feuille.addTortue(tortue);
+		
+
+		getContentPane().add(feuille,"Center");
 		
 		feuille.addMouseListener(con);
 
