@@ -50,6 +50,7 @@ public class TortueAmelioree extends Tortue{
 		for (Tortue t : l){
 			if (this.getFriends().contains(t) && this.distanceEuclidienne(t) <= 15){
 				System.out.println("Hey "+((TortueAmelioree)t).getName()+"! Go away!");
+//				t.droite(45); t.avancer(10); //Est ce qu'il faut faire ça ?
 			}
 		}
 	}

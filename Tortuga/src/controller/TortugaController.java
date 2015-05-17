@@ -15,6 +15,7 @@ public class TortugaController implements ActionListener, MouseListener  {
 	private static final int MARGIN_ERROR = 10;
 
 	private Tortue tortugaCourante;
+	private TortueBalle ball;
 	
 	private SimpleLogo vue;
 	private Jeu jeu;
@@ -94,6 +95,9 @@ public class TortugaController implements ActionListener, MouseListener  {
 			vue.quitter();
 		} else if (c.equals("Lancer la simulation")){
 			//TODO
+			this.ball = new TortueBalle(11, tortugaCourante.getX()+3, tortugaCourante.getY()+3);
+			this.jeu.addTortue(ball); // pas sûr de ça
+//			this.ball.draw(graph);
 		}
 	}
 	
