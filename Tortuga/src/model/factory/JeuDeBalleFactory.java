@@ -10,9 +10,12 @@ import javax.swing.plaf.ColorUIResource;
 import view.FeuilleDessin;
 import model.*;
 
-public class JeuDeBalleFactory {
+public final class JeuDeBalleFactory {
+	
+	@SuppressWarnings("unused")
+	private JeuDeBalleFactory(){}
 
-	public JeuDeBalleFactory(int nbTortues){
+	public static JeuDeBalle createJeuDeBalle(int nbTortues){
 		Random rand = new Random();
 		Jeu jeu = new Jeu();
 		int couleur;
@@ -41,6 +44,12 @@ public class JeuDeBalleFactory {
 		TortueBalle ball = new TortueBalle(rand.nextInt(ColorUtil.NB_COLOR), jeu.getTortues().get(rand.nextInt(nbTortues)));
 		jeu.addTortue(ball);
 		
-//		new JeuDeBalle(jeu);
+		// Set la tortue ball dans le jeu
+		jeu.setTortugaBall(ball);
+		
+		// Set la tortue courante dans le jeu (1ere tortue de la liste)
+		jeu.setTortugaCourante(jeu.getTortues().get(0));
+		
+		return new JeuDeBalle(jeu);
 	}
 }

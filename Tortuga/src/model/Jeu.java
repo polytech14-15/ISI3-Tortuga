@@ -8,6 +8,7 @@ public class Jeu extends Observable {
 
 	private List<Tortue> tortues;
 	private Tortue tortugaCourante;
+	private Tortue tortugaBall;
 	
 	public Jeu(){
 		this.tortues = new ArrayList<>();
@@ -25,7 +26,7 @@ public class Jeu extends Observable {
 	}
 	
 	public void addTortue(Tortue t){
-		tortues.add(t);
+		this.tortues.add(t);
 		
 		setChanged();
 		notifyObservers();
@@ -41,6 +42,10 @@ public class Jeu extends Observable {
 	
 	public void setTortugaCourante(Tortue t){
 		this.tortugaCourante = t;
+	}
+	
+	public void setTortugaBall(Tortue t){
+		this.tortugaBall = t;
 	}
 	
 	

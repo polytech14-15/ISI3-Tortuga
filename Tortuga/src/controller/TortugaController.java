@@ -8,17 +8,16 @@ import java.awt.event.MouseListener;
 import javax.swing.SwingUtilities;
 
 import model.*;
+import model.factory.JeuDeBalleFactory;
 import view.*;
 
 public class TortugaController implements ActionListener, MouseListener  {
 	
 	private static final int MARGIN_ERROR = 10;
 
-//	private Tortue tortugaCourante;
-//	private TortueBalle ball;
-	
 	private SimpleLogo vue;
 	private Jeu jeu;
+	private JeuDeBalle ballGame;
 	
 	private Integer lastDistanceCalculated;
 	
@@ -87,7 +86,7 @@ public class TortugaController implements ActionListener, MouseListener  {
 			} catch (NumberFormatException ex){
 				System.err.println("ce n'est pas un nombre : " + vue.getInputDistance());
 			}
-		} else if (c.equals("Ajouter")){
+		} else if (c.equals("Ajouter") && this.ballGame != null){
 			Tortue t = new TortueAmelioree(vue.getColorIndex(), vue.getFeuille().getSize().width/2, vue.getFeuille().getSize().height/2, vue.getInputName());
 			this.jeu.setTortugaCourante(t);
 			this.jeu.addTortue(t);
@@ -98,11 +97,19 @@ public class TortugaController implements ActionListener, MouseListener  {
 		} else if (c.equals("Quitter")){
 			vue.quitter();
 		} else if (c.equals("Lancer la simulation")){
-			//TODO
-//			this.ball = new TortueBalle(11, this.jeu.getTortugaCourante().getX()+3, this.jeu.getTortugaCourante().getY()+3);
-//			this.jeu.addTortue(ball); // pas sûr de ça
-//			this.ball.draw(graph);
+			int nbTortues = 0;
+			if (this.vue.getInputSimu() != null && !this.vue.getInputSimu().isEmpty() ){
+				try{
+					nbTortues = Integer.parseInt(this.vue.getInputSimu());
+				} catch (NumberFormatException ex){}
+			}
+			ballGame = JeuDeBalleFactory.createJeuDeBalle(nbTortues > 1 ? nbTortues : 2);
+			this.jeu = ballGame.getJeu();
+			updateTortueVue();
+			ballGame.addObserver(this.vue);
+			new Thread(ballGame).start();
 		}
+		//TODO else if arreter simulation
 	}
 	
 		@Override

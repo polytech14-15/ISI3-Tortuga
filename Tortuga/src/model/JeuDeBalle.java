@@ -1,28 +1,30 @@
 package model;
 
 import java.util.Observable;
-import java.util.Observer;
 
-//public class JeuDeBalle implements Runnable, Observer{
-//	
-//	private Jeu jeu;
-//
-//	@Override
-//	public void run() {
-//		// TODO Auto-generated method stub
-//		
-//	}
-//
-//	@Override
-//	public void update(Observable arg0, Object arg1) {
-//		// TODO Auto-generated method stub
-//		
-//	}
-//
-//}
+public class JeuDeBalle extends Observable implements Runnable {
+	
+	private Jeu jeu;
+	
+	public JeuDeBalle(Jeu jeu){
+		this.jeu = jeu;
+	}
 
-public class JeuDeBalle {
+	public Jeu getJeu(){
+		return this.jeu;
+	}
 	
-	
+	@Override
+	public void run() {
+		// TODO Auto-generated method stub
+			
+		for(Tortue t : this.jeu.getTortues()){
+			System.out.println(t);
+		}
+		
+		setChanged();
+		notifyObservers();
+		
+	}
 
 }
