@@ -44,6 +44,10 @@ public class Jeu extends Observable {
 		this.tortugaCourante = t;
 	}
 	
+	public Tortue getTortugaBall(){
+		return this.tortugaCourante;
+	}
+	
 	public void setTortugaBall(Tortue t){
 		this.tortugaBall = t;
 	}
