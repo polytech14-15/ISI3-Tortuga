@@ -19,7 +19,7 @@ public class JeuDeBalle extends Observable implements Runnable {
 		// TODO Auto-generated method stub
 			
 		for(Tortue t : this.jeu.getTortues()){
-			System.out.println(t);
+			System.out.println(t.getX() + " ----- "+t.getY());
 		}
 		
 		setChanged();
