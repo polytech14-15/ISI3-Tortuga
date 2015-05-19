@@ -86,7 +86,7 @@ public class TortugaController implements ActionListener, MouseListener  {
 			} catch (NumberFormatException ex){
 				System.err.println("ce n'est pas un nombre : " + vue.getInputDistance());
 			}
-		} else if (c.equals("Ajouter") && this.ballGame != null){
+		} else if (c.equals("Ajouter") && this.ballGame == null){
 			Tortue t = new TortueAmelioree(vue.getColorIndex(), vue.getFeuille().getSize().width/2, vue.getFeuille().getSize().height/2, vue.getInputName());
 			this.jeu.setTortugaCourante(t);
 			this.jeu.addTortue(t);
