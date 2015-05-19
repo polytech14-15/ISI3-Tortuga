@@ -105,6 +105,7 @@ public class TortugaController implements ActionListener, MouseListener  {
 			}
 			ballGame = JeuDeBalleFactory.createJeuDeBalle(nbTortues > 1 ? nbTortues : 2);
 			this.jeu = ballGame.getJeu();
+			this.jeu.getTortugaCourante().addObserver(this.vue);
 			updateTortueVue();
 			ballGame.addObserver(this.vue);// ?
 			new Thread(ballGame).start();

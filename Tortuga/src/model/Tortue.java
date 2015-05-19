@@ -31,6 +31,7 @@ public abstract class Tortue extends Observable {
 	public void setPosition(int newX, int newY) {
 		x = newX;
 		y = newY;
+		
 		setChanged();
 		notifyObservers();
 	}
