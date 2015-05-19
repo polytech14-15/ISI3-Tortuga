@@ -226,7 +226,7 @@ public class SimpleLogo extends JFrame implements Observer{
 		
 		if (this.con != null){
 			this.tCourante.setText("Tortue Courante: "+((TortueAmelioree)this.con.getTortugaCourante()).getName()+"   ");
-			
+			//test
 			if (this.con.getLastDistanceCalculated() != null){
 				this.lDistEucli.setText("<html>La distance euclidienne <br>est de : "+this.con.getLastDistanceCalculated()+"</html>");
 			}else{
