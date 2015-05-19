@@ -38,12 +38,10 @@ public class TortueAmelioree extends Tortue{
 	
 	public void addFriend(Tortue t){
 		this.friends.add(t);
-		System.out.println("Un ami a été ajouté");
 	}
 	
 	public void removeFriend(Tortue t){
 		this.friends.remove(t);
-		System.out.println("Un ami a été enlevé");
 	}
 	
 	public void checkProximity(List<Tortue> l){

@@ -14,8 +14,9 @@ import java.util.*;
 public class SimpleLogo extends JFrame implements Observer{
 	public static final Dimension VGAP = new Dimension(1,5);
 	public static final Dimension HGAP = new Dimension(5,1);
-
-	private Jeu jeu;
+	public static final int FEUILLE_WIDTH = 600;
+	public static final int FEUILLE_HEIGHT = 400;
+	
 	private TortugaController con;
 	private FeuilleDessin feuille;
 	private JTextField inputDistance;
@@ -23,7 +24,7 @@ public class SimpleLogo extends JFrame implements Observer{
 	private JComboBox colorList;
 	private JLabel tCourante;
 	private JLabel lDistEucli;
-
+	private JTextField inputSimu;
 
 	/**
 	 * @param args
@@ -49,10 +50,9 @@ public class SimpleLogo extends JFrame implements Observer{
 
 	public SimpleLogo() {
 		super("Tortuga");
-		
-		this.jeu = new Jeu();
+
 		this.initFeuille();
-		this.con = new TortugaController(this, jeu);
+		this.con = new TortugaController(this);
 		logoInit();
 		
 		addWindowListener(new WindowAdapter() {
@@ -117,9 +117,8 @@ public class SimpleLogo extends JFrame implements Observer{
 		inputName =new JTextField(5);
 		toolBar2.add(inputName);
 		
-		String[] colorStrings = {"noir", "bleu", "cyan","gris fonce","rouge",
-				 "vert", "gris clair", "magenta", "orange",
-				 "gris", "rose", "jaune"};
+		String[] colorStrings = {"noir", "bleu", "cyan","rouge",
+				 "vert", "magenta", "orange", "rose", "jaune"};
 
 		// Create the combo box
 		JLabel colorLabel2 = new JLabel("Couleur: ");
@@ -149,7 +148,12 @@ public class SimpleLogo extends JFrame implements Observer{
 		//Menu droite
 		JPanel panel4 = new JPanel(new GridLayout(0,1,0,0));;
 		getContentPane().add(panel4, BorderLayout.LINE_END);
+		JLabel simuLabel = new JLabel("<html>Nombre de tortue<br>dans la simulation:");
+		panel4.add(simuLabel);
+		inputSimu = new JTextField(5);
+		panel4.add(inputSimu);
 		addButton(panel4, "Lancer la simulation", "Lancer la simulation", null);
+		addButton(panel4, "Stopper la simulation", "Stopper la simulation", null);
 		
 		// Feuille 
 		getContentPane().add(feuille,"Center");
@@ -161,10 +165,10 @@ public class SimpleLogo extends JFrame implements Observer{
 	}
 	
 	private void initFeuille(){
-		feuille = new FeuilleDessin(this.jeu); //500, 400);
+		feuille = new FeuilleDessin();
 		feuille.setBackground(Color.white);
-		feuille.setSize(new Dimension(600,400));
-		feuille.setPreferredSize(new Dimension(600,400));
+		feuille.setSize(new Dimension(SimpleLogo.FEUILLE_WIDTH,SimpleLogo.FEUILLE_HEIGHT));
+		feuille.setPreferredSize(new Dimension(SimpleLogo.FEUILLE_WIDTH,SimpleLogo.FEUILLE_HEIGHT));
 	}
 
 	public String getInputDistance(){
@@ -175,6 +179,10 @@ public class SimpleLogo extends JFrame implements Observer{
 	public String getInputName(){
 		if (inputName == null) System.out.println("ytvukblnl");
 		return inputName.getText();
+	}
+	
+	public String getInputSimu(){
+		return inputSimu.getText();
 	}
 	
 	public int getColorIndex(){
@@ -221,12 +229,13 @@ public class SimpleLogo extends JFrame implements Observer{
 
 	@Override
 	public void update(Observable arg0, Object arg1) {
-		this.feuille.setTortues(this.jeu.getTortues());
-		this.feuille.repaint();
 		
-		if (this.con != null){
-			this.tCourante.setText("Tortue Courante: "+((TortueAmelioree)this.con.getTortugaCourante()).getName()+"   ");
-			//test
+		if (this.con != null && this.feuille!= null){
+
+			this.feuille.repaint();
+			
+			this.tCourante.setText("Tortue Courante: "+((TortueAmelioree)this.con.getJeu().getTortugaCourante()).getName()+"   ");
+			
 			if (this.con.getLastDistanceCalculated() != null){
 				this.lDistEucli.setText("<html>La distance euclidienne <br>est de : "+this.con.getLastDistanceCalculated()+"</html>");
 			}else{

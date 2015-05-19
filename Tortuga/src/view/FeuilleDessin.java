@@ -28,13 +28,12 @@ public class FeuilleDessin extends JPanel {
 	 */
 	private static final long serialVersionUID = -6111575103973860248L;
 	
-	private Jeu jeu;
 	private List<Tortue> tortues; // la liste des tortues enregistrees
 	
-	public FeuilleDessin(Jeu jeu) {
-		this.jeu = jeu;
+	public FeuilleDessin(){
+		this.tortues = new ArrayList<Tortue>(0);
 	}
-
+	
 	public void setTortues(List<Tortue> tortues){
 		this.tortues = tortues;
 	}

@@ -41,6 +41,6 @@ public class JeuDeBalleFactory {
 		TortueBalle ball = new TortueBalle(rand.nextInt(ColorUtil.NB_COLOR), jeu.getTortues().get(rand.nextInt(nbTortues)));
 		jeu.addTortue(ball);
 		
-		new JeuDeBalle(jeu);
+//		new JeuDeBalle(jeu);
 	}
 }

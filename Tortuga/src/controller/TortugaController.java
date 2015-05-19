@@ -14,40 +14,43 @@ public class TortugaController implements ActionListener, MouseListener  {
 	
 	private static final int MARGIN_ERROR = 10;
 
-	private Tortue tortugaCourante;
-	private TortueBalle ball;
+//	private Tortue tortugaCourante;
+//	private TortueBalle ball;
 	
 	private SimpleLogo vue;
 	private Jeu jeu;
 	
 	private Integer lastDistanceCalculated;
 	
-	public TortugaController(SimpleLogo vue, Jeu jeu){
+	public TortugaController(SimpleLogo vue){
 		this.vue = vue;
-		this.jeu = jeu;
+		this.jeu = new Jeu(new TortueAmelioree());
 		
-		this.tortugaCourante = new TortueAmelioree();
-		this.tortugaCourante.addObserver(this.vue);
+		this.jeu.getTortugaCourante().addObserver(this.vue);
 		this.jeu.addObserver(this.vue);
 		
-		this.jeu.addTortue(tortugaCourante);
+		updateTortueVue();
 		
 		reset();
 	}
 	
-	public Tortue getTortugaCourante(){
-		return this.tortugaCourante;
+	public Jeu getJeu(){
+		return this.jeu;
 	}
-	
+		
 	public Integer getLastDistanceCalculated(){
 		return this.lastDistanceCalculated;
+	}
+	
+	private void updateTortueVue(){
+		this.vue.getFeuille().setTortues(this.jeu.getTortues());
 	}
 	
 	public void reset() {
 		// on initialise la position de la tortue
 		for (Tortue t : jeu.getTortues()){
 			t.reset();
-			t.setPosition(vue.getFeuille().getSize().width/2, vue.getFeuille().getSize().height/2);
+			t.setPosition(SimpleLogo.FEUILLE_WIDTH/2, SimpleLogo.FEUILLE_HEIGHT/2);
 		}
   	}
 	
@@ -60,9 +63,9 @@ public class TortugaController implements ActionListener, MouseListener  {
 		if (c.equals("Avancer")) {
 			try {
 				int v = Integer.parseInt(vue.getInputDistance());
-				this.tortugaCourante.avancer(v);
-				if (this.tortugaCourante instanceof TortueAmelioree){
-					((TortueAmelioree) this.tortugaCourante).checkProximity(this.jeu.getTortues());
+				this.jeu.getTortugaCourante().avancer(v);
+				if (this.jeu.getTortugaCourante() instanceof TortueAmelioree){
+					((TortueAmelioree) this.jeu.getTortugaCourante()).checkProximity(this.jeu.getTortues());
 				}
 			} catch (NumberFormatException ex){
 				System.err.println("ce n'est pas un nombre : " + vue.getInputDistance());
@@ -72,7 +75,7 @@ public class TortugaController implements ActionListener, MouseListener  {
 		else if (c.equals("Droite")) {
 			try {
 				int v = Integer.parseInt(vue.getInputDistance());
-				this.tortugaCourante.droite(v);
+				this.jeu.getTortugaCourante().droite(v);
 			} catch (NumberFormatException ex){
 				System.err.println("ce n'est pas un nombre : " + vue.getInputDistance());
 			}
@@ -80,23 +83,24 @@ public class TortugaController implements ActionListener, MouseListener  {
 		else if (c.equals("Gauche")) {
 			try {
 				int v = Integer.parseInt(vue.getInputDistance());
-				this.tortugaCourante.gauche(v);
+				this.jeu.getTortugaCourante().gauche(v);
 			} catch (NumberFormatException ex){
 				System.err.println("ce n'est pas un nombre : " + vue.getInputDistance());
 			}
 		} else if (c.equals("Ajouter")){
 			Tortue t = new TortueAmelioree(vue.getColorIndex(), vue.getFeuille().getSize().width/2, vue.getFeuille().getSize().height/2, vue.getInputName());
-			this.tortugaCourante = t;
+			this.jeu.setTortugaCourante(t);
 			this.jeu.addTortue(t);
-			this.tortugaCourante.addObserver(this.vue);
+			updateTortueVue();
+			this.jeu.getTortugaCourante().addObserver(this.vue);
 		} else if (c.equals("Effacer")) {
 			reset();
 		} else if (c.equals("Quitter")){
 			vue.quitter();
 		} else if (c.equals("Lancer la simulation")){
 			//TODO
-			this.ball = new TortueBalle(11, tortugaCourante.getX()+3, tortugaCourante.getY()+3);
-			this.jeu.addTortue(ball); // pas sûr de ça
+//			this.ball = new TortueBalle(11, this.jeu.getTortugaCourante().getX()+3, this.jeu.getTortugaCourante().getY()+3);
+//			this.jeu.addTortue(ball); // pas sûr de ça
 //			this.ball.draw(graph);
 		}
 	}
@@ -107,24 +111,26 @@ public class TortugaController implements ActionListener, MouseListener  {
 			int yMouse = e.getY();
 			
 			for (Tortue t : this.jeu.getTortues()){
-				if ( t != this.tortugaCourante && t instanceof TortueAmelioree
+				if ( t != this.jeu.getTortugaCourante() && t instanceof TortueAmelioree
 						&& xMouse >= t.getX() - MARGIN_ERROR && xMouse <= t.getX() + MARGIN_ERROR 
 						&& yMouse >= t.getY() - MARGIN_ERROR && yMouse <= t.getY() + MARGIN_ERROR){
 
 					if(SwingUtilities.isLeftMouseButton(e)){
-						this.tortugaCourante = t;
-						this.tortugaCourante.setColor(this.tortugaCourante.getColor());//simule un touch pour mettre a jour la vue
+						this.jeu.setTortugaCourante(t);
+						this.jeu.getTortugaCourante().setColor(this.jeu.getTortugaCourante().getColor());//simule un touch pour mettre a jour la vue
 					} else if (SwingUtilities.isRightMouseButton(e)){
 						// Add friend
-						if (this.tortugaCourante instanceof TortueAmelioree && !((TortueAmelioree)this.tortugaCourante).getFriends().contains(t)){
-							((TortueAmelioree)this.tortugaCourante).addFriend(t);
+						if (this.jeu.getTortugaCourante() instanceof TortueAmelioree && !((TortueAmelioree)this.jeu.getTortugaCourante()).getFriends().contains(t)){
+							((TortueAmelioree)this.jeu.getTortugaCourante()).addFriend(t);
+							System.out.println("Un ami a été ajouté");
 						} else {
-							((TortueAmelioree)this.tortugaCourante).removeFriend(t);
+							((TortueAmelioree)this.jeu.getTortugaCourante()).removeFriend(t);
+							System.out.println("Un ami a été enlevé");
 						}
 					} else if (SwingUtilities.isMiddleMouseButton(e)){
-						if (this.tortugaCourante instanceof TortueAmelioree){
-							this.lastDistanceCalculated = ((TortueAmelioree)this.tortugaCourante).distanceEuclidienne(t);
-							this.tortugaCourante.setColor(this.tortugaCourante.getColor());//simule un touch pour mettre a jour la vue
+						if (this.jeu.getTortugaCourante() instanceof TortueAmelioree){
+							this.lastDistanceCalculated = ((TortueAmelioree)this.jeu.getTortugaCourante()).distanceEuclidienne(t);
+							this.jeu.getTortugaCourante().setColor(this.jeu.getTortugaCourante().getColor());//simule un touch pour mettre a jour la vue
 						}
 					}
 					break;
