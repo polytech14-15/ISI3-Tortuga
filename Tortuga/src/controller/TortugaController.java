@@ -49,7 +49,7 @@ public class TortugaController implements ActionListener, MouseListener  {
 		// on initialise la position de la tortue
 		for (Tortue t : jeu.getTortues()){
 			t.reset();
-			t.setPosition(SimpleLogo.FEUILLE_WIDTH/2, SimpleLogo.FEUILLE_HEIGHT/2);
+			t.setPosition(FeuilleDessin.FEUILLE_WIDTH/2, FeuilleDessin.FEUILLE_HEIGHT/2);
 		}
   	}
 	

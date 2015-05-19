@@ -82,6 +82,10 @@ public abstract class Tortue extends Observable {
 
 	
 	public abstract void draw(Graphics graph);
+	
+	public static void resetNB_TORTUE(){
+		Tortue.NB_TORTUE = 0;
+	}
 
 }
 	

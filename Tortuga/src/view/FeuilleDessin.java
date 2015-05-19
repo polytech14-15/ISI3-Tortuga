@@ -22,6 +22,9 @@ import java.util.*;
  */
 
 public class FeuilleDessin extends JPanel {
+
+	public static final int FEUILLE_WIDTH = 600;
+	public static final int FEUILLE_HEIGHT = 400;
 	
 	/**
 	 * 

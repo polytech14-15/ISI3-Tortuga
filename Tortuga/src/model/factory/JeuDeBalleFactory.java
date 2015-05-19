@@ -1,11 +1,10 @@
 package model.factory;
 
-import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 
-import javax.swing.plaf.ColorUIResource;
+
 
 import view.FeuilleDessin;
 import model.*;
@@ -21,12 +20,14 @@ public final class JeuDeBalleFactory {
 		int couleur;
 		HashMap<Integer, ArrayList<TortueAmelioree>> tortuesCouleurs = new HashMap<Integer, ArrayList<TortueAmelioree>>();
 		
+		Tortue.resetNB_TORTUE(); // reset le nb_tortue a 0
+		
 		for (int i = 0; i<nbTortues; i++){
 			couleur = rand.nextInt(ColorUtil.NB_COLOR);
 			if (!tortuesCouleurs.containsKey(couleur)){
 				tortuesCouleurs.put(couleur, new ArrayList<TortueAmelioree>());
 			}
-			tortuesCouleurs.get(couleur).add(new TortueAmelioree(couleur, rand.nextInt(FeuilleDessin.WIDTH), rand.nextInt(FeuilleDessin.HEIGHT), "Tortue " + i));
+			tortuesCouleurs.get(couleur).add(new TortueAmelioree(couleur, rand.nextInt(FeuilleDessin.FEUILLE_WIDTH), rand.nextInt(FeuilleDessin.FEUILLE_HEIGHT), null));
 
 		}
 		

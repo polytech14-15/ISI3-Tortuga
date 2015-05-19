@@ -14,8 +14,6 @@ import java.util.*;
 public class SimpleLogo extends JFrame implements Observer{
 	public static final Dimension VGAP = new Dimension(1,5);
 	public static final Dimension HGAP = new Dimension(5,1);
-	public static final int FEUILLE_WIDTH = 600;
-	public static final int FEUILLE_HEIGHT = 400;
 	
 	private TortugaController con;
 	private FeuilleDessin feuille;
@@ -167,8 +165,8 @@ public class SimpleLogo extends JFrame implements Observer{
 	private void initFeuille(){
 		feuille = new FeuilleDessin();
 		feuille.setBackground(Color.white);
-		feuille.setSize(new Dimension(SimpleLogo.FEUILLE_WIDTH,SimpleLogo.FEUILLE_HEIGHT));
-		feuille.setPreferredSize(new Dimension(SimpleLogo.FEUILLE_WIDTH,SimpleLogo.FEUILLE_HEIGHT));
+		feuille.setSize(new Dimension(FeuilleDessin.FEUILLE_WIDTH,FeuilleDessin.FEUILLE_HEIGHT));
+		feuille.setPreferredSize(new Dimension(FeuilleDessin.FEUILLE_WIDTH,FeuilleDessin.FEUILLE_HEIGHT));
 	}
 
 	public String getInputDistance(){
