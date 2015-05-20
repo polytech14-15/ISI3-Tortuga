@@ -49,12 +49,7 @@ public class Jeu extends Observable {
 	}
 	
 	public void setTortugaCourante(Tortue t){
-		if (this.tortugaCourante != null){
-			((TortueAmelioree) this.tortugaCourante).setIsControlled(!((TortueAmelioree) this.tortugaCourante).getIsControlled());
-		}
 		this.tortugaCourante = t;
-		((TortueAmelioree) this.tortugaCourante).setIsControlled(!((TortueAmelioree) this.tortugaCourante).getIsControlled());
-		
 	}
 	
 	public Tortue getTortugaBall(){

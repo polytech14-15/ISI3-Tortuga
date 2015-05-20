@@ -50,7 +50,6 @@ public final class JeuDeBalleFactory {
 		
 		TortueBalle ball = new TortueBalle(rand.nextInt(ColorUtil.NB_COLOR), jeu.getTortues().get(rand.nextInt(nbTortues)));
 		jeu.addTortue(ball);
-		
 		// Set la tortue ball dans le jeu
 		jeu.setTortugaBall(ball);
 

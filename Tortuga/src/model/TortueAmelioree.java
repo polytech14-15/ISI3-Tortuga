@@ -11,21 +11,18 @@ public class TortueAmelioree extends Tortue{
 	private static final int PROXIMITY = 30;
 	
 	private String name;
-	private boolean isControlled; 
 	private List<Tortue> friends;
 	
 	public TortueAmelioree(){
 		super();
 		this.name = "Tortue" + Tortue.NB_TORTUE;
 		this.friends = new ArrayList<>();
-		this.isControlled = false;
 	}
 	
 	public TortueAmelioree(int color, int newX, int newY, String name){
 		super(color, newX, newY);
 		this.name = name == null || name.isEmpty() ? "Tortue" + Tortue.NB_TORTUE : name;
 		this.friends = new ArrayList<>();
-		this.isControlled = false;
 	}
 	
 	public String getName(){
@@ -46,14 +43,6 @@ public class TortueAmelioree extends Tortue{
 	
 	public void removeFriend(Tortue t){
 		this.friends.remove(t);
-	}
-	
-	public boolean getIsControlled(){
-		return this.isControlled;
-	}
-	
-	public void setIsControlled(boolean b){
-		this.isControlled = b;
 	}
 	
 	public void checkProximity(List<Tortue> l){
