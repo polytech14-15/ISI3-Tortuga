@@ -8,20 +8,24 @@ import java.util.List;
 
 public class TortueAmelioree extends Tortue{
 
-	protected String name;
+	private static final int PROXIMITY = 30;
 	
+	private String name;
+	private boolean isControlled; 
 	private List<Tortue> friends;
 	
 	public TortueAmelioree(){
 		super();
 		this.name = "Tortue" + Tortue.NB_TORTUE;
 		this.friends = new ArrayList<>();
+		this.isControlled = false;
 	}
 	
 	public TortueAmelioree(int color, int newX, int newY, String name){
 		super(color, newX, newY);
 		this.name = name == null || name.isEmpty() ? "Tortue" + Tortue.NB_TORTUE : name;
 		this.friends = new ArrayList<>();
+		this.isControlled = false;
 	}
 	
 	public String getName(){
@@ -44,13 +48,23 @@ public class TortueAmelioree extends Tortue{
 		this.friends.remove(t);
 	}
 	
+	public boolean getIsControlled(){
+		return this.isControlled;
+	}
+	
+	public void setIsControlled(boolean b){
+		this.isControlled = b;
+	}
+	
 	public void checkProximity(List<Tortue> l){
 		for (Tortue t : l){
-			if (this.getFriends().contains(t) && this.distanceEuclidienne(t) <= 15){
-				System.out.println("Hey "+((TortueAmelioree)t).getName()+"! Go away!");
-//				t.droite(45); t.avancer(10); //Est ce qu'il faut faire ça ?
+			if (this.getFriends().contains(t) && this.distanceEuclidienne(t) <= TortueAmelioree.PROXIMITY){
+				System.out.println(this.name+" said: Hey "+((TortueAmelioree)t).getName()+"! Go away!");
+				t.droite(45); t.avancer(10); //Deplacement de son pote
 			}
 		}
+		setChanged();
+		notifyObservers();
 	}
 	
 	public int distanceEuclidienne(Tortue t) {
