@@ -18,10 +18,12 @@ public class TortugaController implements ActionListener, MouseListener  {
 	private SimpleLogo vue;
 	private Jeu jeu;
 	private JeuDeBalle ballGame;
+	private boolean simuluationOn;
 	
 	private Integer lastDistanceCalculated;
 	
 	public TortugaController(SimpleLogo vue){
+		this.simuluationOn = false;
 		this.vue = vue;
 		this.jeu = new Jeu(new TortueAmelioree());
 		
@@ -86,7 +88,7 @@ public class TortugaController implements ActionListener, MouseListener  {
 			} catch (NumberFormatException ex){
 				System.err.println("ce n'est pas un nombre : " + vue.getInputDistance());
 			}
-		} else if (c.equals("Ajouter") && this.ballGame == null){
+		} else if (c.equals("Ajouter") && !this.simuluationOn){
 			Tortue t = new TortueAmelioree(vue.getColorIndex(), vue.getFeuille().getSize().width/2, vue.getFeuille().getSize().height/2, vue.getInputName());
 			this.jeu.setTortugaCourante(t);
 			this.jeu.addTortue(t);
@@ -106,6 +108,7 @@ public class TortugaController implements ActionListener, MouseListener  {
 			ballGame = JeuDeBalleFactory.createJeuDeBalle(nbTortues > 1 ? nbTortues : 2);
 			this.jeu = ballGame.getJeu();
 			this.jeu.getTortugaCourante().addObserver(this.vue);
+			this.simuluationOn = true;
 			updateTortueVue();
 			ballGame.addObserver(this.vue);// ?
 			new Thread(ballGame).start();
@@ -126,7 +129,7 @@ public class TortugaController implements ActionListener, MouseListener  {
 					if(SwingUtilities.isLeftMouseButton(e)){
 						this.jeu.setTortugaCourante(t);
 						this.jeu.getTortugaCourante().setColor(this.jeu.getTortugaCourante().getColor());//simule un touch pour mettre a jour la vue
-					} else if (SwingUtilities.isRightMouseButton(e)){
+					} else if (!this.simuluationOn && SwingUtilities.isRightMouseButton(e)){
 						// Add friend
 						if (this.jeu.getTortugaCourante() instanceof TortueAmelioree && !((TortueAmelioree)this.jeu.getTortugaCourante()).getFriends().contains(t)){
 							((TortueAmelioree)this.jeu.getTortugaCourante()).addFriend(t);
