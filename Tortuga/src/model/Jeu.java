@@ -25,6 +25,14 @@ public class Jeu extends Observable {
 		this.tortugaCourante = tortugaCourante;
 	}
 	
+	
+	public Jeu(List<Tortue> tortues, Tortue tortugaCourante, Tortue tortugaBall){
+		this.tortues = tortues;
+		this.tortugaCourante = tortugaCourante;
+		this.tortugaBall = tortugaBall;
+	}
+	
+	
 	public void addTortue(Tortue t){
 		this.tortues.add(t);
 		
@@ -50,7 +58,7 @@ public class Jeu extends Observable {
 	}
 	
 	public Tortue getTortugaBall(){
-		return this.tortugaCourante;
+		return this.tortugaBall;
 	}
 	
 	public void setTortugaBall(Tortue t){

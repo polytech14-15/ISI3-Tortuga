@@ -111,8 +111,9 @@ public class TortugaController implements ActionListener, MouseListener  {
 			updateTortueVue();
 			ballGame.addObserver(this.vue);
 			new Thread(ballGame).start();
+		} else if (c.equals("Stopper la simulation")){
+			TortugaController.SIMULATION_ON = false;
 		}
-		//TODO else if arreter simulation
 	}
 	
 		@Override
