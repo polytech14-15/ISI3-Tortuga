@@ -9,8 +9,11 @@ public class JeuDeBalle extends Observable implements Runnable {
 	
 	private static final int MAX_JUMP_VALUE = 5;
 	private static final int MAX_JUMP_ANGLE = 360;
+	private static final int TEMPS_MIN_POSSESSION_BALLE = 100; // 100ms
 
 	private Jeu jeu;
+	
+	private boolean canPass; // booleen qui determine si la tortue peux faire une passe.
 
 	public JeuDeBalle(Jeu jeu) {
 		this.jeu = jeu;
@@ -50,9 +53,24 @@ public class JeuDeBalle extends Observable implements Runnable {
 			}
 			
 			// TODO - faire une passe au bout d'un certain temps. Une passe au plus proche de ses copains ou alétoire parmis sa bande de pote ?
-			
-			
-			
+			if (this.canPass){
+				TortueAmelioree tAvecBalle = (TortueAmelioree) ((TortueBalle) this.jeu.getTortugaBall()).getMamanTortue();
+				Tortue laPlusProche = tAvecBalle;
+				double distanceMin = Double.MAX_VALUE;
+				double distance;
+				for (Tortue t : tAvecBalle.getFriends()){
+					distance = tAvecBalle.distanceEuclidienne(t);
+					if (distance < distanceMin){
+						distanceMin = distance;
+						laPlusProche = t;
+					}
+				}
+				
+				((TortueBalle) this.jeu.getTortugaBall()).setMamanTortue(laPlusProche);
+				this.canPass = false;
+				waitPass();
+				
+			}
 			setChanged();
 			notifyObservers();
 		}

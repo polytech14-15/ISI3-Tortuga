@@ -22,5 +22,13 @@ public class TortueBalle extends Tortue{
 		graph.setColor(ColorUtil.decodeColor(this.coul));
 		graph.fillOval(p.x-5, p.y+10, 10, 10);
 	}
+	
+	public Tortue getMamanTortue(){
+		return mamanTortue;
+	}
+	
+	public void setMamanTortue(Tortue mamanTortue){
+		this.mamanTortue = mamanTortue;
+	}
 
 }
