@@ -57,4 +57,22 @@ public class JeuDeBalle extends Observable implements Runnable {
 			notifyObservers();
 		}
 	}
+	
+	//new Thread(() -> waitPass()).run();
+	 private void waitPass() {
+//	        try {
+//	            Thread.sleep(JeuDeBalle.WAIT_FOR_PASS);
+//	            this.canPass = true;
+//	        } catch (InterruptedException e) {
+//	            e.printStackTrace();
+//	        }
+	        
+        new Thread(new Runnable() {
+            public void run()
+            {
+            	Thread.sleep(JeuDeBalle.WAIT_FOR_PASS);
+            	this.canPass = true;// Insert some method call here.
+            }
+	    });
+	 }
 }
