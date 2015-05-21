@@ -9,7 +9,7 @@ public class JeuDeBalle extends Observable implements Runnable {
 	
 	private static final int MAX_JUMP_VALUE = 5;
 	private static final int MAX_JUMP_ANGLE = 360;
-	private static final int TEMPS_MIN_POSSESSION_BALLE = 100; // 100ms
+	private static final int WAIT_FOR_PASS = 2000; // 3s
 
 	private Jeu jeu;
 	
@@ -17,6 +17,7 @@ public class JeuDeBalle extends Observable implements Runnable {
 
 	public JeuDeBalle(Jeu jeu) {
 		this.jeu = jeu;
+		this.canPass = true;
 	}
 
 	public Jeu getJeu() {
@@ -52,7 +53,7 @@ public class JeuDeBalle extends Observable implements Runnable {
 				e.printStackTrace();
 			}
 			
-			// TODO - faire une passe au bout d'un certain temps. Une passe au plus proche de ses copains ou alétoire parmis sa bande de pote ?
+			// S'il peut faire la passe
 			if (this.canPass){
 				TortueAmelioree tAvecBalle = (TortueAmelioree) ((TortueBalle) this.jeu.getTortugaBall()).getMamanTortue();
 				Tortue laPlusProche = tAvecBalle;
@@ -67,7 +68,7 @@ public class JeuDeBalle extends Observable implements Runnable {
 				}
 				
 				((TortueBalle) this.jeu.getTortugaBall()).setMamanTortue(laPlusProche);
-				this.canPass = false;
+				changeCanPass();
 				waitPass();
 				
 			}
@@ -76,21 +77,22 @@ public class JeuDeBalle extends Observable implements Runnable {
 		}
 	}
 	
-	//new Thread(() -> waitPass()).run();
 	 private void waitPass() {
-//	        try {
-//	            Thread.sleep(JeuDeBalle.WAIT_FOR_PASS);
-//	            this.canPass = true;
-//	        } catch (InterruptedException e) {
-//	            e.printStackTrace();
-//	        }
-	        
+		 // Etablis le Thread 
         new Thread(new Runnable() {
             public void run()
             {
-            	Thread.sleep(JeuDeBalle.WAIT_FOR_PASS);
-            	this.canPass = true;// Insert some method call here.
+            	try {
+					Thread.sleep(JeuDeBalle.WAIT_FOR_PASS);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+            changeCanPass();
             }
-	    });
+	    }).start();;
 	 }
+
+	private void changeCanPass() {
+		this.canPass = !this.canPass;
+	}
 }
