@@ -9,11 +9,11 @@ public class JeuDeBalle extends Observable implements Runnable {
 	
 	private static final int MAX_JUMP_VALUE = 5;
 	private static final int MAX_JUMP_ANGLE = 360;
-	private static final int WAIT_FOR_PASS = 2000; // 3s
+	private static final int WAIT_FOR_PASS = 2000; // 2s
 
 	private Jeu jeu;
 	
-	private boolean canPass; // booleen qui determine si la tortue peux faire une passe.
+	private boolean canPass; // booleen qui determine si la tortue peut faire une passe.
 
 	public JeuDeBalle(Jeu jeu) {
 		this.jeu = jeu;
@@ -36,7 +36,7 @@ public class JeuDeBalle extends Observable implements Runnable {
 				// Si la tortue n'est pas une balle et n'est pas controlee par l'utilisateur
 				if (t != this.jeu.getTortugaBall() && t != this.jeu.getTortugaCourante()){
 					
-					// Cinq fois plus de chance d'avance que de tourner
+					// Cinq fois plus de chance d'avancer que de tourner
 					if (rand.nextInt(6) > 1){
 						//Avance
 						t.avancer(JeuDeBalle.MAX_JUMP_VALUE);
@@ -53,7 +53,7 @@ public class JeuDeBalle extends Observable implements Runnable {
 				e.printStackTrace();
 			}
 			
-			// S'il peut faire la passe
+			// Si elle peut faire la passe
 			if (this.canPass){
 				TortueAmelioree tAvecBalle = (TortueAmelioree) ((TortueBalle) this.jeu.getTortugaBall()).getMamanTortue();
 				Tortue laPlusProche = tAvecBalle;
@@ -67,10 +67,9 @@ public class JeuDeBalle extends Observable implements Runnable {
 					}
 				}
 				
-				((TortueBalle) this.jeu.getTortugaBall()).setMamanTortue(laPlusProche);
+				this.jeu.getTortugaBall().setMamanTortue(laPlusProche);
 				changeCanPass();
 				waitPass();
-				
 			}
 			setChanged();
 			notifyObservers();

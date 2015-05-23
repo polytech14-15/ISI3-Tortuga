@@ -30,7 +30,6 @@ public class TortugaController implements ActionListener, MouseListener  {
 		this.jeu.addObserver(this.vue);
 		
 		updateTortueVue();
-		
 		reset();
 	}
 	
@@ -43,7 +42,12 @@ public class TortugaController implements ActionListener, MouseListener  {
 	}
 	
 	private void updateTortueVue(){
-		this.vue.getFeuille().setTortues(this.jeu.getTortues());
+		for (TortueAmelioree t : this.jeu.getTortues()){
+			this.vue.getFeuille().addTortue(new VueTortueAmelioree(t));
+		}
+		if (this.jeu.getTortugaBall() != null){
+			this.vue.getFeuille().addTortue(new VueTortueBalle(this.jeu.getTortugaBall()));
+		}
 	}
 	
 	public void reset() {
@@ -58,29 +62,26 @@ public class TortugaController implements ActionListener, MouseListener  {
 	public void actionPerformed(ActionEvent e) {
 		String c = e.getActionCommand();
 		this.lastDistanceCalculated = null;
-//		System.out.println("Command: " + c);
 		// actions des boutons du haut
 		if (c.equals("Avancer")) {
 			try {
 				int v = Integer.parseInt(vue.getInputDistance());
 				this.jeu.getTortugaCourante().avancer(v);
-				if (this.jeu.getTortugaCourante() instanceof TortueAmelioree){
-					((TortueAmelioree) this.jeu.getTortugaCourante()).checkProximity(this.jeu.getTortues());
-				}
+//				if (this.jeu.getTortugaCourante() instanceof TortueAmelioree){
+					this.jeu.getTortugaCourante().checkProximity(this.jeu.getTortues());
+//				}
 			} catch (NumberFormatException ex){
 				System.err.println("ce n'est pas un nombre : " + vue.getInputDistance());
 			}
 			
-		}
-		else if (c.equals("Droite")) {
+		} else if (c.equals("Droite")) {
 			try {
 				int v = Integer.parseInt(vue.getInputDistance());
 				this.jeu.getTortugaCourante().droite(v);
 			} catch (NumberFormatException ex){
 				System.err.println("ce n'est pas un nombre : " + vue.getInputDistance());
 			}
-		}
-		else if (c.equals("Gauche")) {
+		} else if (c.equals("Gauche")) {
 			try {
 				int v = Integer.parseInt(vue.getInputDistance());
 				this.jeu.getTortugaCourante().gauche(v);
@@ -88,7 +89,7 @@ public class TortugaController implements ActionListener, MouseListener  {
 				System.err.println("ce n'est pas un nombre : " + vue.getInputDistance());
 			}
 		} else if (c.equals("Ajouter") && !TortugaController.SIMULATION_ON){
-			Tortue t = new TortueAmelioree(vue.getColorIndex(), vue.getFeuille().getSize().width/2, vue.getFeuille().getSize().height/2, vue.getInputName());
+			TortueAmelioree t = new TortueAmelioree(vue.getColorIndex(), vue.getFeuille().getSize().width/2, vue.getFeuille().getSize().height/2, vue.getInputName());
 			this.jeu.setTortugaCourante(t);
 			this.jeu.addTortue(t);
 			updateTortueVue();
@@ -99,6 +100,7 @@ public class TortugaController implements ActionListener, MouseListener  {
 			vue.quitter();
 		} else if (c.equals("Lancer la simulation")){
 			int nbTortues = 0;
+			this.vue.getFeuille().reset();
 			if (this.vue.getInputSimu() != null && !this.vue.getInputSimu().isEmpty() ){
 				try{
 					nbTortues = Integer.parseInt(this.vue.getInputSimu());
@@ -121,8 +123,8 @@ public class TortugaController implements ActionListener, MouseListener  {
 			int xMouse = e.getX();
 			int yMouse = e.getY();
 			
-			for (Tortue t : this.jeu.getTortues()){
-				if ( t != this.jeu.getTortugaCourante() && t instanceof TortueAmelioree
+			for (TortueAmelioree t : this.jeu.getTortues()){
+				if (t != this.jeu.getTortugaCourante() && t instanceof TortueAmelioree
 						&& xMouse >= t.getX() - MARGIN_ERROR && xMouse <= t.getX() + MARGIN_ERROR 
 						&& yMouse >= t.getY() - MARGIN_ERROR && yMouse <= t.getY() + MARGIN_ERROR){
 
@@ -147,32 +149,17 @@ public class TortugaController implements ActionListener, MouseListener  {
 					break;
 				}
 			}
-
 		}
 
 		@Override
-		public void mouseEntered(MouseEvent e) {
-			// TODO Auto-generated method stub
-			
-		}
+		public void mouseEntered(MouseEvent e) {}
 
 		@Override
-		public void mouseExited(MouseEvent e) {
-			// TODO Auto-generated method stub
-			
-		}
+		public void mouseExited(MouseEvent e) {}
 
 		@Override
-		public void mousePressed(MouseEvent e) {
-			// TODO Auto-generated method stub
-			
-		}
+		public void mousePressed(MouseEvent e) {}
 
 		@Override
-		public void mouseReleased(MouseEvent e) {
-			// TODO Auto-generated method stub
-			
-		}
-
-	
+		public void mouseReleased(MouseEvent e) {}
 }

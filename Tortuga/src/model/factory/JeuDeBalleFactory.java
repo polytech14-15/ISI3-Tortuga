@@ -2,11 +2,7 @@ package model.factory;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Random;
-
-
-
 
 import view.FeuilleDessin;
 import model.*;
@@ -44,15 +40,12 @@ public final class JeuDeBalleFactory {
 			}
 		}
 		
-
 		// Set la tortue courante dans le jeu
 		jeu.setTortugaCourante(jeu.getTortues().get(rand.nextInt(nbTortues)));
 		
 		TortueBalle ball = new TortueBalle(rand.nextInt(ColorUtil.NB_COLOR), jeu.getTortues().get(rand.nextInt(nbTortues)));
-		jeu.addTortue(ball);
 		// Set la tortue ball dans le jeu
 		jeu.setTortugaBall(ball);
-
 		
 		return new JeuDeBalle(jeu);
 	}

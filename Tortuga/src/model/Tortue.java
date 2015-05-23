@@ -1,7 +1,8 @@
 package model;
 
-import java.awt.Graphics;
 import java.util.Observable;
+
+import view.FeuilleDessin;
 
 public abstract class Tortue extends Observable {
 
@@ -31,7 +32,6 @@ public abstract class Tortue extends Observable {
 	public void setPosition(int newX, int newY) {
 		x = newX;
 		y = newY;
-		
 		setChanged();
 		notifyObservers();
 	}
@@ -62,13 +62,19 @@ public abstract class Tortue extends Observable {
 		setChanged();
 		notifyObservers();
 	}
-	
 
 	// avancer de n pas
 	public void avancer(int dist) {
 		int newX = (int) Math.round(this.getX()+dist*Math.cos(Tortue.ratioDegRad*this.getDirection()));
 		int newY = (int) Math.round(this.getY()+dist*Math.sin(Tortue.ratioDegRad*this.getDirection()));
-		this.setPosition(newX, newY);
+		
+		if (newY < FeuilleDessin.FEUILLE_HEIGHT && newY > 0 && newX < FeuilleDessin.FEUILLE_WIDTH && newX > 0){
+			// on vérifie que la tortue ne dépasse pas de la feuille
+			this.setPosition(newX, newY);
+		} else {
+			this.setDirection(this.getDirection()+90);
+			avancer(dist);
+		}
 	}
 
 	// aller a droite
@@ -81,9 +87,6 @@ public abstract class Tortue extends Observable {
 		this.setDirection((this.getDirection() - ang) % 360);
 	}
 
-	
-	public abstract void draw(Graphics graph);
-	
 	public static void resetNB_TORTUE(){
 		Tortue.NB_TORTUE = 0;
 	}

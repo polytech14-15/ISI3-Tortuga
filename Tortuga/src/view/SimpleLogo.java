@@ -5,13 +5,16 @@ import java.awt.*;
 import javax.swing.*;
 
 import controller.TortugaController;
-import model.Jeu;
-import model.TortueAmelioree;
+import model.*;
 
 import java.awt.event.*;
 import java.util.*;
 
 public class SimpleLogo extends JFrame implements Observer{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	public static final Dimension VGAP = new Dimension(1,5);
 	public static final Dimension HGAP = new Dimension(5,1);
 	
@@ -30,12 +33,10 @@ public class SimpleLogo extends JFrame implements Observer{
 	public static void main(String[] args) {
 		   SwingUtilities.invokeLater(new Runnable(){
 				public void run(){
-
 					SimpleLogo fenetre = new SimpleLogo();
 					fenetre.setVisible(true);
 				}
 			});
-			
 		}
 	
 	public FeuilleDessin getFeuille(){
@@ -52,13 +53,13 @@ public class SimpleLogo extends JFrame implements Observer{
 		this.initFeuille();
 		this.con = new TortugaController(this);
 		logoInit();
-		
+
 		addWindowListener(new WindowAdapter() {
-		    @Override
-		    public void windowClosing(WindowEvent arg0) {
-		        super.windowClosing(arg0);
-		        System.exit(0);
-		    }
+			@Override
+			public void windowClosing(WindowEvent arg0) {
+				super.windowClosing(arg0);
+				System.exit(0);
+			}
 		});
 	}
 
@@ -236,7 +237,7 @@ public class SimpleLogo extends JFrame implements Observer{
 			
 			if (this.con.getLastDistanceCalculated() != null){
 				this.lDistEucli.setText("<html>La distance euclidienne <br>est de : "+this.con.getLastDistanceCalculated()+"</html>");
-			}else{
+			} else {
 				this.lDistEucli.setText("");
 			}
 		}

@@ -1,12 +1,6 @@
 package view;
 
-//import java.awt.*;
-
 import javax.swing.*;
-
-import model.Jeu;
-import model.Tortue;
-
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -31,21 +25,24 @@ public class FeuilleDessin extends JPanel {
 	 */
 	private static final long serialVersionUID = -6111575103973860248L;
 	
-	private List<Tortue> tortues; // la liste des tortues enregistrees
+	private List<IVueTortue> tortues; // la liste des tortues enregistrees
 	
 	public FeuilleDessin(){
-		this.tortues = new ArrayList<Tortue>(0);
+		this.tortues = new ArrayList<IVueTortue>(0);
+		reset();
 	}
 	
-	public void setTortues(List<Tortue> tortues){
-		this.tortues = tortues;
+	public void addTortue(IVueTortue tortue){
+			this.tortues.add(tortue);
 	}
+	
+	public void reset() {
+		this.tortues.clear();
+    }
 
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-
 		Color c = g.getColor();
-		
 		Dimension dim = getSize();
 		g.setColor(Color.white);
 		g.fillRect(0,0,dim.width, dim.height);
@@ -55,8 +52,7 @@ public class FeuilleDessin extends JPanel {
 	}
 	
 	public void showTurtles(Graphics g) {
-		for(Iterator it = tortues.iterator();it.hasNext();) {
-			Tortue t = (Tortue) it.next();
+		for (IVueTortue t : tortues) {
 			t.draw(g);
 		}
 	}
