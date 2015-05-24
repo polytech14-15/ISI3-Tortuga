@@ -42,7 +42,7 @@ public class TortugaController implements ActionListener, MouseListener  {
 	}
 	
 	private void updateTortueVue(){
-		for (TortueAmelioree t : this.jeu.getTortues()){
+		for (Tortue t : this.jeu.getTortues()){
 			this.vue.getFeuille().addTortue(new VueTortueAmelioree(t));
 		}
 		if (this.jeu.getTortugaBall() != null){
@@ -67,9 +67,9 @@ public class TortugaController implements ActionListener, MouseListener  {
 			try {
 				int v = Integer.parseInt(vue.getInputDistance());
 				this.jeu.getTortugaCourante().avancer(v);
-//				if (this.jeu.getTortugaCourante() instanceof TortueAmelioree){
-					this.jeu.getTortugaCourante().checkProximity(this.jeu.getTortues());
-//				}
+				if (this.jeu.getTortugaCourante() instanceof TortueAmelioree){
+					((TortueAmelioree) this.jeu.getTortugaCourante()).checkProximity(this.jeu.getTortues());
+				}
 			} catch (NumberFormatException ex){
 				System.err.println("ce n'est pas un nombre : " + vue.getInputDistance());
 			}
@@ -123,7 +123,7 @@ public class TortugaController implements ActionListener, MouseListener  {
 			int xMouse = e.getX();
 			int yMouse = e.getY();
 			
-			for (TortueAmelioree t : this.jeu.getTortues()){
+			for (Tortue t : this.jeu.getTortues()){
 				if (t != this.jeu.getTortugaCourante() && t instanceof TortueAmelioree
 						&& xMouse >= t.getX() - MARGIN_ERROR && xMouse <= t.getX() + MARGIN_ERROR 
 						&& yMouse >= t.getY() - MARGIN_ERROR && yMouse <= t.getY() + MARGIN_ERROR){
