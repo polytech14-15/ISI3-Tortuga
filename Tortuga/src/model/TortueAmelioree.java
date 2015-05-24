@@ -42,11 +42,15 @@ public class TortueAmelioree extends Tortue{
 		this.friends.remove(t);
 	}
 	
-	public void checkProximity(List<TortueAmelioree> l){
-		for (TortueAmelioree t : l){
+	public void checkProximity(List<Tortue> l){
+		for (Tortue t : l){
 			if (this.getFriends().contains(t) && this.distanceEuclidienne(t) <= TortueAmelioree.PROXIMITY){
-				System.out.println(this.name+" said: Hey "+t.getName()+"! Go away!");
-				t.droite(45); t.avancer(10); //Deplacement de son pote
+				if (t instanceof TortueAmelioree){
+				System.out.println(this.name+" said: Hey "+((TortueAmelioree) t).getName()+"! Go away!");
+				} else {
+					System.out.println(this.name+" said: Hey shity-Tortue-that-has-no-name! Go away!");
+				}
+				t.droite(90); t.avancer(10); //Deplacement de son pote
 			}
 		}
 		setChanged();

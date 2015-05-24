@@ -6,49 +6,49 @@ import java.util.Observable;
 
 public class Jeu extends Observable {
 
-	private List<TortueAmelioree> tortues;
-	private TortueAmelioree tortugaCourante;
+	private List<Tortue> tortues;
+	private Tortue tortugaCourante;
 	private TortueBalle tortugaBall;
 	
 	public Jeu(){
 		this.tortues = new ArrayList<>();
 	}
 	
-	public Jeu(TortueAmelioree tortugaCourante){
+	public Jeu(Tortue tortugaCourante){
 		this.tortues = new ArrayList<>();
 		this.tortugaCourante = tortugaCourante;
 		this.addTortue(this.tortugaCourante);
 	}
 	
-	public Jeu(List<TortueAmelioree> tortues, TortueAmelioree tortugaCourante){
+	public Jeu(List<Tortue> tortues, Tortue tortugaCourante){
 		this.tortues = tortues;
 		this.tortugaCourante = tortugaCourante;
 	}
 	
 	
-	public Jeu(List<TortueAmelioree> tortues, TortueAmelioree tortugaCourante, TortueBalle tortugaBall){
+	public Jeu(List<Tortue> tortues, Tortue tortugaCourante, TortueBalle tortugaBall){
 		this.tortues = tortues;
 		this.tortugaCourante = tortugaCourante;
 		this.tortugaBall = tortugaBall;
 	}
 	
 	
-	public void addTortue(TortueAmelioree t){
+	public void addTortue(Tortue t){
 		this.tortues.add(t);
 		
 		setChanged();
 		notifyObservers();
 	}
 	
-	public List<TortueAmelioree> getTortues(){
+	public List<Tortue> getTortues(){
 		return this.tortues;
 	}
 	
-	public TortueAmelioree getTortugaCourante(){
+	public Tortue getTortugaCourante(){
 		return this.tortugaCourante;
 	}
 	
-	public void setTortugaCourante(TortueAmelioree t){
+	public void setTortugaCourante(Tortue t){
 		this.tortugaCourante = t;
 	}
 	
