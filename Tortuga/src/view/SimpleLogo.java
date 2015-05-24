@@ -159,6 +159,8 @@ public class SimpleLogo extends JFrame implements Observer{
 		
 		feuille.addMouseListener(con);
 
+		this.setResizable(false);
+		
 		pack();
 		setVisible(true);
 	}
